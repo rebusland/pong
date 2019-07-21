@@ -4,7 +4,7 @@
 void SplashScreen::Show(sf::RenderWindow& renderWindow)
 {
 	sf::Texture image;
-	if (image.loadFromFile("images/PangIntroImg.png") != true)
+	if (image.loadFromFile("images/PongIntroImg.png") != true)
 	{
 		return;
 	}

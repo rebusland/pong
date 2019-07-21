@@ -18,7 +18,7 @@ void Game::Start(void)
 		return;
 	}
 
-	_mainWindow.create(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, 16), "Pang!");
+	_mainWindow.create(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, 16), "Pong!");
 	_mainWindow.setFramerateLimit(30); // limit frame rate
 
 	PlayerPaddle *player1 = new PlayerPaddle();
