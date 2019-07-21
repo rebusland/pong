@@ -11,6 +11,15 @@ public:
 	void Update() override;
 	void Draw(sf::RenderWindow& rw) override;
 
+	double ComputeBallPaddleAngle(double upcomingAngle, const sf::FloatRect& paddleBounds) const;
+	
+public:
+	// ball velocity modulus (assumed constant among the shots from the two players)
+	static constexpr float BALL_SPEED = 200;
+
+	// ball width
+	static float BALL_WIDTH;
+
 private:
 	/*
 	 * Current angle at which the ball is moving.
@@ -18,6 +27,6 @@ private:
 	 */
 	double _angle;
 
-	// ball velocity modulus (assumed constant among the shots from the two players)
-	static constexpr float BALL_SPEED = 200;
+	bool _hasCollided = false;
+
 };

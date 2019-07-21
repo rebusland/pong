@@ -1,16 +1,11 @@
 #pragma once
+#include "Paddle.h"
 #include "VisibleGameObject.h"
 
-class PlayerPaddle : public VisibleGameObject
+class PlayerPaddle : public Paddle
 {
 public:
-	PlayerPaddle();
 	~PlayerPaddle();
 
 	void Update() override;
-	void Draw(sf::RenderWindow& rw) override;
-
-private:
-	// the fixed speed at which a paddle can move (right or left)
-	static constexpr float PADDLE_SPEED = 600;
 };

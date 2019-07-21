@@ -20,7 +20,9 @@ void VisibleGameObject::Load(std::string filename)
 	{
 		_filename = "";
 		_isLoaded = false;
-	} else {
+	}
+	else
+	{
 		_filename = filename;
 		_sprite.setTexture(_image);
 		_isLoaded = true;
@@ -77,7 +79,7 @@ bool VisibleGameObject::IsWinLeftBorderTouched() const
 
 bool VisibleGameObject::IsWinRightBorderTouched() const
 {
-	return (this->GetPosition().x >= Game::SCREEN_WIDTH - _sprite.getGlobalBounds().width);
+	return (this->GetPosition().x >= Game::SCREEN_WIDTH - GetBounds().width);
 }
 
 /**
@@ -91,7 +93,7 @@ bool VisibleGameObject::IsWinTopBorderTouched() const
 
 bool VisibleGameObject::IsWinBottomBorderTouched() const
 {
-	return (this->GetPosition().y >= Game::SCREEN_HEIGHT - _sprite.getGlobalBounds().height);
+	return (this->GetPosition().y >= Game::SCREEN_HEIGHT - GetBounds().height);
 }
 
 sf::Sprite& VisibleGameObject::GetSprite()

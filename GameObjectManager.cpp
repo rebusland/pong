@@ -41,12 +41,27 @@ std::vector<sf::FloatRect> GameObjectManager::GetPaddlesBounds() const
 	for (auto const& x : _gameObjects)
 	{
 		// check if visible object from the map is a paddle object
-		if (dynamic_cast<PlayerPaddle*>(x.second) != nullptr)
+		if (dynamic_cast<Paddle*>(x.second) != nullptr)
 		{
 			boundsVec.push_back(x.second->GetBounds());
 		}
 	}
 	return boundsVec;
+}
+
+sf::Vector2f GameObjectManager::GetBallPosition() const
+{
+	for (auto const& x : _gameObjects)
+	{
+		// check if visible object from the map is a ball object
+		if (static_cast<GameBall*>(x.second) != nullptr)
+		{
+			return x.second->GetPosition();
+		}
+	}
+
+	// if no ball is found return empty vector
+	return sf::Vector2f();
 }
 
 int GameObjectManager::GetObjectCount() const

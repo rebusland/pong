@@ -17,6 +17,11 @@ public:
 	 */
 	std::vector<sf::FloatRect> GetPaddlesBounds() const;
 
+	/**
+	 * Getter for ball position.
+	 */
+	sf::Vector2f GetBallPosition() const;
+
 	void DrawAll(sf::RenderWindow& renderWindow);
 
 	void UpdateAll();

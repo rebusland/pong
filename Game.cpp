@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "Game.h"
+#include "Paddle.h"
 #include "MainMenu.h"
 #include "SplashScreen.h"
 
@@ -12,14 +13,16 @@ void Game::Start(void)
 	_mainWindow.setFramerateLimit(30); // limit frame rate
 
 	PlayerPaddle *player1 = new PlayerPaddle();
-	player1->SetPosition((SCREEN_WIDTH / 2) - 45, SCREEN_HEIGHT - 60);
+	player1->SetPosition((SCREEN_WIDTH / 2) - Paddle::PADDLE_WIDTH * 0.5, SCREEN_HEIGHT - PADDLE_VERTICAL_DISTANCE);
 
-	// TODO create a computer paddle, opposing to the user: not easy!
+	ComputerPaddle *computerPaddle = new ComputerPaddle();
+	computerPaddle->SetPosition((SCREEN_WIDTH / 2) - Paddle::PADDLE_WIDTH * 0.5, PADDLE_VERTICAL_DISTANCE);
 
 	GameBall *ball = new GameBall();
-	ball->SetPosition((SCREEN_WIDTH / 2), (SCREEN_HEIGHT / 2) - 15);
+	ball->SetPosition((SCREEN_WIDTH / 2), (SCREEN_HEIGHT / 2) - GameBall::BALL_WIDTH * 0.5);
 
 	_gameObjectManager.Add("PaddlePlayer", player1);
+	_gameObjectManager.Add("ComputerPaddle", computerPaddle);
 	_gameObjectManager.Add("Ball", ball);
 
 	_gameState = Game::ShowingSplash;
@@ -46,6 +49,11 @@ sf::RenderWindow& Game::GetWindow()
 std::vector<sf::FloatRect> Game::GetPaddlesBounds() 
 {
 	return _gameObjectManager.GetPaddlesBounds();
+}
+
+sf::Vector2f Game::GetBallPosition()
+{
+	return _gameObjectManager.GetBallPosition();
 }
 
 void Game::GameLoop()

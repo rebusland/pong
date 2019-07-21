@@ -2,22 +2,9 @@
 #include "PlayerPaddle.h"
 #include "Game.h"
 
-PlayerPaddle::PlayerPaddle() 
-{
-	Load("images/paddle.png");
-	assert(IsLoaded());
-
-	GetSprite().setOrigin(GetSprite().getScale().x / 2, GetSprite().getScale().y / 2);
-}
-
 PlayerPaddle::~PlayerPaddle()
 {
 	std::cout << __func__ << std::endl;
-}
-
-void PlayerPaddle::Draw(sf::RenderWindow & rw)
-{
-	VisibleGameObject::Draw(rw);
 }
 
 void PlayerPaddle::Update()

@@ -1,5 +1,6 @@
 #pragma once
 #include "PlayerPaddle.h"
+#include "ComputerPaddle.h"
 #include "Ball.h"
 #include "GameObjectManager.h"
 
@@ -10,11 +11,14 @@ public:
 	static void Start();
 	static sf::RenderWindow& GetWindow();
 	static std::vector<sf::FloatRect> GetPaddlesBounds();
+	static sf::Vector2f GetBallPosition();
 
-	const static int SCREEN_WIDTH = 800;
-	const static int SCREEN_HEIGHT = 480;
+	static constexpr int SCREEN_WIDTH = 800;
+	static constexpr int SCREEN_HEIGHT = 480;
 	// update time for the window (according to an avarage 30 fps)
 	static constexpr float WIN_UPDATE_TIME = (float)1 / 30;
+
+	static constexpr int PADDLE_VERTICAL_DISTANCE = 60;
 
 private:
 	static bool IsExiting();
