@@ -7,7 +7,7 @@ PlayerPaddle::~PlayerPaddle()
 	std::cout << __func__ << std::endl;
 }
 
-void PlayerPaddle::Update()
+GameMessage PlayerPaddle::Update()
 {
 	float speed = 0.0;
 
@@ -25,4 +25,7 @@ void PlayerPaddle::Update()
 
 	// increment current position by dx = v * dt
 	GetSprite().move(speed * Game::WIN_UPDATE_TIME, 0);
+
+	// if no problem were encountered then an empty success message is returned
+	return GameMessage::EmptySuccessMessage();
 }

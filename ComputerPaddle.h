@@ -11,5 +11,5 @@ public:
  	 * Implements computer paddle movements logic.
 	 * TODO change computer opposition ability according to a difficulty level.
 	 */
-	void Update() override;
+	GameMessage Update() override;
 };

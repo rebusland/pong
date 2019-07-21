@@ -38,8 +38,9 @@ void VisibleGameObject::Draw(sf::RenderWindow & renderWindow)
 }
 
 
-void VisibleGameObject::Update()
+GameMessage VisibleGameObject::Update()
 {
+	return GameMessage::EmptySuccessMessage();
 }
 
 sf::FloatRect VisibleGameObject::GetBounds() const

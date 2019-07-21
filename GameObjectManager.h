@@ -1,5 +1,6 @@
 #pragma once
 #include "VisibleGameObject.h"
+#include "GameMessage.h"
 
 class GameObjectManager
 {
@@ -10,6 +11,8 @@ public:
 	void Add(std::string name, VisibleGameObject* gameObject);
 	void Remove(std::string name);
 	int GetObjectCount() const;
+
+	// TODO implement specific getters for game objects (ball, playerPaddle and computerPaddle)
 	VisibleGameObject* Get(std::string name) const;
 
 	/**
@@ -24,7 +27,7 @@ public:
 
 	void DrawAll(sf::RenderWindow& renderWindow);
 
-	void UpdateAll();
+	GameMessage UpdateAll();
 
 private:
 	std::map<std::string, VisibleGameObject*> _gameObjects;

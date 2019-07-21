@@ -1,4 +1,6 @@
 #pragma once
+#include "GameMessage.h"
+
 class VisibleGameObject
 {
 public:
@@ -7,7 +9,7 @@ public:
 
 	virtual void Load(std::string filename);
 	virtual void Draw(sf::RenderWindow & window);
-	virtual void Update();
+	virtual GameMessage Update();
 
 	virtual sf::FloatRect GetBounds() const;
 

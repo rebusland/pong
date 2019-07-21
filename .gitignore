@@ -4,6 +4,9 @@
 # Visual studio files
 *.vcxproj
 *.vcxproj.*
+*.aps
+*.rc
+resource.h
 
 # executable
 *.exe

@@ -7,5 +7,5 @@ class PlayerPaddle : public Paddle
 public:
 	~PlayerPaddle();
 
-	void Update() override;
+	GameMessage Update() override;
 };

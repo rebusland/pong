@@ -7,7 +7,7 @@ ComputerPaddle::~ComputerPaddle()
 	std::cout << __func__ << std::endl;
 }
 
-void ComputerPaddle::Update()
+GameMessage ComputerPaddle::Update()
 {
 	// get ball position, according to difficulty level the computer paddle should be able to keep up with ball movements
 	float currentBallPositionX = Game::GetBallPosition().x;
@@ -24,4 +24,7 @@ void ComputerPaddle::Update()
 		
 	// increment current position by dx = v * dt
 	GetSprite().move(speed * Game::WIN_UPDATE_TIME, 0);
+
+	// if no error is encountered then an empty success message is returned
+	return GameMessage::EmptySuccessMessage();
 }

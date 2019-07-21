@@ -18,8 +18,7 @@ GameBall::GameBall()
 
 	// random angle at which the ball is first thrown (in the intervals [30, 150] and [210, 330] degrees) 
 	_angle = 30 + rand() % 120;
-	_angle = (rand() % 2 == 0) ? _angle : 180 + _angle
-;
+	_angle = (rand() % 2 == 0) ? _angle : 180 + _angle;
 }
 
 GameBall::~GameBall()
@@ -32,25 +31,23 @@ void GameBall::Draw(sf::RenderWindow& rw)
 	VisibleGameObject::Draw(rw);
 }
 
-void GameBall::Update()
+GameMessage GameBall::Update()
 {
 	// std::cout << GetPosition().x << ", " << GetPosition().y << std::endl;
 
 	// if the bottom border of the window is reached than the player on that side (user for the moment) lose the game
 	if (IsWinBottomBorderTouched())
 	{
-		// std::cout << "User lost the game!!" << std::endl;
-		return;
+		// for testing purpose a popup for gameover and restarting the game is displayed
+		return GameMessage("Missed the ball!", true);
 	}
-
 	// reflection top (to be removed)
 	if (IsWinTopBorderTouched())
 	{
 		_angle = -_angle;
 	}
-
 	// reflection on window left/right sides
-	if (IsWinLeftBorderTouched() ||
+	else if (IsWinLeftBorderTouched() ||
 		IsWinRightBorderTouched())
 	{
 		_angle = 180 - _angle;
@@ -78,6 +75,9 @@ void GameBall::Update()
 	float dy = BALL_SPEED * sin(_angle * PI / 180) * Game::WIN_UPDATE_TIME; // dy = v * sin(angle) * dt
 
 	GetSprite().move(dx, dy);
+
+	// if no problem occured an empty success message is sent
+	return GameMessage::EmptySuccessMessage();
 }
 
 double GameBall::ComputeBallPaddleAngle(double upcomingAngle, const sf::FloatRect& paddleBounds) const

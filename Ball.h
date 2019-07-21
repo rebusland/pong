@@ -8,7 +8,7 @@ public:
 	GameBall();
 	virtual ~GameBall();
 
-	void Update() override;
+	GameMessage Update() override;
 	void Draw(sf::RenderWindow& rw) override;
 
 	double ComputeBallPaddleAngle(double upcomingAngle, const sf::FloatRect& paddleBounds) const;

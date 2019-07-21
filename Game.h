@@ -9,7 +9,8 @@ class Game
 
 public:
 	static void Start();
-	static sf::RenderWindow& GetWindow();
+	static sf::RenderWindow& GetMainWindow();
+	// static sf::RenderWindow& GetGameoverWindow();
 	static std::vector<sf::FloatRect> GetPaddlesBounds();
 	static sf::Vector2f GetBallPosition();
 
@@ -21,6 +22,7 @@ public:
 	static constexpr int PADDLE_VERTICAL_DISTANCE = 60;
 
 private:
+	static void SetGameObjectsDefaultPosition();
 	static bool IsExiting();
 	static void GameLoop();
 
@@ -31,8 +33,12 @@ private:
 
 	static void ShowSplashScreen();
 	static void ShowMenu();
+	static void ShowGameoverPopup();
 
 	static GameState _gameState;
+
 	static sf::RenderWindow _mainWindow;
+	// static sf::RenderWindow _gameoverWindow;
+
 	static GameObjectManager _gameObjectManager;
 };
