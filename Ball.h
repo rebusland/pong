@@ -14,7 +14,7 @@ public:
 	
 public:
 	// ball velocity modulus (assumed constant among the shots from the two players)
-	static constexpr float BALL_SPEED = 200;
+	static constexpr float BALL_SPEED = 400;
 
 	// ball width
 	static float BALL_WIDTH;

@@ -12,6 +12,12 @@ void Game::Start(void)
 		return;
 	}
 
+	if (!LoadFonts()) 
+	{
+		std::cout << "Error while loading text fonts, returning.";
+		return;
+	}
+
 	_mainWindow.create(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, 16), "Pang!");
 	_mainWindow.setFramerateLimit(30); // limit frame rate
 
@@ -37,14 +43,19 @@ void Game::Start(void)
 	_mainWindow.close();
 }
 
+bool Game::LoadFonts()
+{
+	return Fonts::arialFont.loadFromFile(Fonts::PATH_TO_FONTS + "arial.ttf");
+}
+
 void Game::SetGameObjectsDefaultPosition() 
 {
 	// ball default position is at the center of the window
-	_gameObjectManager.Get("Ball")->SetPosition((SCREEN_WIDTH / 2), (SCREEN_HEIGHT / 2) - GameBall::BALL_WIDTH * 0.5);
+	_gameObjectManager.Get("Ball")->SetPosition((FIELD_WIDTH / 2), (FIELD_HEIGHT / 2) - GameBall::BALL_WIDTH * 0.5);
 
 	// player and computer paddle are at the centered and in opposite sides of the field
-	_gameObjectManager.Get("PaddlePlayer") -> SetPosition((SCREEN_WIDTH / 2) - Paddle::PADDLE_WIDTH * 0.5, SCREEN_HEIGHT - PADDLE_VERTICAL_DISTANCE);
-	_gameObjectManager.Get("ComputerPaddle") -> SetPosition((SCREEN_WIDTH / 2) - Paddle::PADDLE_WIDTH * 0.5, PADDLE_VERTICAL_DISTANCE);
+	_gameObjectManager.Get("PaddlePlayer") -> SetPosition((FIELD_WIDTH / 2) - Paddle::PADDLE_WIDTH * 0.5, FIELD_HEIGHT - PADDLE_VERTICAL_DISTANCE);
+	_gameObjectManager.Get("ComputerPaddle") -> SetPosition((FIELD_WIDTH / 2) - Paddle::PADDLE_WIDTH * 0.5, PADDLE_VERTICAL_DISTANCE);
 }
 
 bool Game::IsExiting()
@@ -82,16 +93,18 @@ void Game::GameLoop()
 
 	switch (_gameState)
 	{
-	case Game::ShowingMenu:
-		ShowMenu();
-		break;
-
 	case Game::ShowingSplash:
 		ShowSplashScreen();
 		break;
 
+	case Game::ShowingMenu:
+		ShowMenu();
+		break;
+
 	case Game::Playing:
 		_mainWindow.clear(sf::Color(0, 0, 0));
+
+		_scoreBoard.Draw(_mainWindow); // draw scoreboard on main window
 
 		GameMessage resultMessage = _gameObjectManager.UpdateAll();
 		_gameObjectManager.DrawAll(_mainWindow);
@@ -107,14 +120,33 @@ void Game::GameLoop()
 		{
 			std::cout << "Point scored: " << resultMessage.GetMessageString() << std::endl;
 			_referee->InterpretBallMessage(resultMessage);
-			
-			// for the moment log current result
-			_referee->GetCurrentResult();
-			
+			result_t currentResult = _referee->GetCurrentResult();
+
 			// TODO 
 			// if referee get result is match done show end popup otherwise simply update scores
+			_scoreBoard.UpdateScores(currentResult);
+			_scoreBoard.Draw(_mainWindow);
+			_mainWindow.display(); // display to update the score on the window
 
-			ShowGameoverPopup();
+			// computer wins: gameover
+			if (currentResult.computerScore == result_t::MAX_SCORE) 
+			{
+				ShowGameoverPopup();
+			}
+			// player wins!!
+			else if (currentResult.playerScore == result_t::MAX_SCORE)
+			{
+				// TODO go to the next level?
+			}
+			// simply keep up with the match
+			else 
+			{
+				// wait for one second and restart
+				std::this_thread::sleep_for(std::chrono::seconds(1));
+				// TODO countdown to restart
+				SetGameObjectsDefaultPosition();
+				// TODO set a new randon angle for the ball
+			}
 		}
 
 		break;
@@ -164,8 +196,11 @@ void Game::ShowGameoverPopup()
 	}
 }
 
-// static members initialized
+// static members initialization
 Game::GameState Game::_gameState = Uninitialized;
+const std::string Game::Fonts::PATH_TO_FONTS = "C:/Users/Rebo/Documents/Fonts/";
+sf::Font Game::Fonts::arialFont;
 sf::RenderWindow Game::_mainWindow;
+ScoreBoard Game::_scoreBoard;
 GameObjectManager Game::_gameObjectManager;
 std::unique_ptr<Referee> Game::_referee = std::make_unique<Referee>();

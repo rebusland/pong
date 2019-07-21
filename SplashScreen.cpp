@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "SplashScreen.h"
 
-void SplashScreen::Show(sf::RenderWindow & renderWindow)
+void SplashScreen::Show(sf::RenderWindow& renderWindow)
 {
 	sf::Texture image;
 	if (image.loadFromFile("images/PangIntroImg.png") != true)
@@ -18,6 +18,7 @@ void SplashScreen::Show(sf::RenderWindow & renderWindow)
 
 	while (true) {
 		while (renderWindow.pollEvent(event))
+
 		{
 			if (event.type == sf::Event::EventType::KeyPressed
 				|| event.type == sf::Event::EventType::MouseButtonPressed

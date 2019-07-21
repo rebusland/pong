@@ -80,7 +80,7 @@ bool VisibleGameObject::IsWinLeftBorderTouched() const
 
 bool VisibleGameObject::IsWinRightBorderTouched() const
 {
-	return (this->GetPosition().x >= Game::SCREEN_WIDTH - GetBounds().width);
+	return (this->GetPosition().x >= Game::FIELD_WIDTH - GetBounds().width);
 }
 
 /**
@@ -94,7 +94,7 @@ bool VisibleGameObject::IsWinTopBorderTouched() const
 
 bool VisibleGameObject::IsWinBottomBorderTouched() const
 {
-	return (this->GetPosition().y >= Game::SCREEN_HEIGHT - GetBounds().height);
+	return (this->GetPosition().y >= Game::FIELD_HEIGHT - GetBounds().height);
 }
 
 sf::Sprite& VisibleGameObject::GetSprite()
