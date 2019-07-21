@@ -9,6 +9,12 @@
 typedef struct {
 	int playerScore;
 	int computerScore;
+
+	void Clear() 
+	{
+		playerScore = 0;
+		computerScore = 0;
+	}
 	
 	// the score needed by a player to win the game
 	static constexpr int MAX_SCORE = 10;
@@ -18,6 +24,7 @@ class Referee
 {
 public:
 	~Referee();
+	void ResetScore();
 	const result_t& GetCurrentResult() const;
 	void InterpretBallMessage(const GameMessage& ballMessage);
 

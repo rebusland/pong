@@ -43,11 +43,6 @@ void Game::Start(void)
 	_mainWindow.close();
 }
 
-bool Game::LoadFonts()
-{
-	return Fonts::arialFont.loadFromFile(Fonts::PATH_TO_FONTS + "arial.ttf");
-}
-
 void Game::SetGameObjectsDefaultPosition() 
 {
 	// ball default position is at the center of the window
@@ -56,26 +51,6 @@ void Game::SetGameObjectsDefaultPosition()
 	// player and computer paddle are at the centered and in opposite sides of the field
 	_gameObjectManager.Get("PaddlePlayer") -> SetPosition((FIELD_WIDTH / 2) - Paddle::PADDLE_WIDTH * 0.5, FIELD_HEIGHT - PADDLE_VERTICAL_DISTANCE);
 	_gameObjectManager.Get("ComputerPaddle") -> SetPosition((FIELD_WIDTH / 2) - Paddle::PADDLE_WIDTH * 0.5, PADDLE_VERTICAL_DISTANCE);
-}
-
-bool Game::IsExiting()
-{
-	return _gameState == Game::Exiting;
-}
-
-sf::RenderWindow& Game::GetMainWindow()
-{
-	return _mainWindow;
-}
-
-std::vector<sf::FloatRect> Game::GetPaddlesBounds()
-{
-	return _gameObjectManager.GetPaddlesBounds();
-}
-
-sf::Vector2f Game::GetBallPosition()
-{
-	return _gameObjectManager.GetBallPosition();
 }
 
 void Game::GameLoop()
@@ -189,6 +164,8 @@ void Game::ShowGameoverPopup()
 	case GameoverPopup::Retry:
 		// reset game objects position and restore playing window
 		SetGameObjectsDefaultPosition();
+		_scoreBoard.Clear();
+		_referee->ResetScore();
 		_gameState = Game::Playing;
 		break;
 	default:

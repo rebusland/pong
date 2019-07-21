@@ -10,6 +10,11 @@ public:
 	ScoreBoard();
 
 	/**
+	 * Reset scores
+	 */
+	void Clear();
+
+	/**
 	 * draw the scoreboard on the given window 
 	 */
 	void Draw(sf::RenderWindow& window);
@@ -21,7 +26,10 @@ private:
 	struct ScoreBox 
 	{
 		ScoreBox(const ScoreBoard& containingBoard, const sf::String& playerName, const sf::Vector2f& position);
-		void UpdateScore(int updatedScore);
+		void UpdateScore(int updatedScore) 
+		{
+			_scoreText.setString(std::to_string(updatedScore));
+		}
 		const sf::RectangleShape& GetBox() { return _box; };
 		const sf::Text& GetScoreText() { return _scoreText; };
 

@@ -6,6 +6,11 @@ Referee::~Referee()
 	std::cout << "Referee destructor!" << std::endl;
 }
 
+void Referee::ResetScore() 
+{
+	_result.Clear();
+}
+
 const result_t& Referee::GetCurrentResult() const
 {
 	std::cout << __func__ << ": current result, computer vs player: " << _result.computerScore << " - " << _result.playerScore << std::endl;

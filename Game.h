@@ -19,15 +19,27 @@ class Game
 
 public:
 	static void Start();
-	static sf::RenderWindow& GetMainWindow();
+	static sf::RenderWindow& GetMainWindow() 
+	{
+		return _mainWindow;
+	}
 	// static sf::RenderWindow& GetGameoverWindow();
-	static std::vector<sf::FloatRect> GetPaddlesBounds();
-	static sf::Vector2f GetBallPosition();
+	static std::vector<sf::FloatRect> GetPaddlesBounds()
+	{
+		return _gameObjectManager.GetPaddlesBounds();
+	}
+	static sf::Vector2f GetBallPosition() 
+	{
+		return _gameObjectManager.GetBallPosition();
+	}
 
 	/**
 	 * True if font loading has been successful, false otherwise
 	 */
-	static bool LoadFonts();
+	static bool LoadFonts() 
+	{
+		return Fonts::arialFont.loadFromFile(Fonts::PATH_TO_FONTS + "arial.ttf");
+	}
 
 	// pre-loaded fonts
 	static struct Fonts {
@@ -59,7 +71,10 @@ public:
 
 private:
 	static void SetGameObjectsDefaultPosition();
-	static bool IsExiting();
+	static bool IsExiting()
+	{
+		return _gameState == Game::Exiting;
+	}
 	static void GameLoop();
 
 	enum GameState {

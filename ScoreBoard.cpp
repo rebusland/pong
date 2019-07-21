@@ -29,11 +29,6 @@ ScoreBoard::ScoreBox::ScoreBox(const ScoreBoard& scoreBoard, const sf::String& n
 	_scoreText.setString("0");
 }
 
-void ScoreBoard::ScoreBox::UpdateScore(int score) 
-{
-	_scoreText.setString(std::to_string(score));
-}
-
 /** SCOREBOARD **/
 ScoreBoard::ScoreBoard() :
 	_scoreBar(sf::Vector2f(Game::SCORE_BOARD_WIDTH, Game::SCORE_BOARD_HEIGHT)),
@@ -51,6 +46,12 @@ ScoreBoard::ScoreBoard() :
 	// setup the scoreboard bar rectangle
 	_scoreBar.setFillColor(sf::Color(105, 105, 105)); // grey
 	_scoreBar.setPosition(sf::Vector2f(Game::FIELD_WIDTH, 0));
+}
+
+void ScoreBoard::Clear() 
+{
+	_playerScoreBox._scoreText.setString("0");
+	_computerScoreBox._scoreText.setString("0");
 }
 
 void ScoreBoard::Draw(sf::RenderWindow& window) 
