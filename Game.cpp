@@ -99,7 +99,21 @@ void Game::GameLoop()
 		
 		if (resultMessage.IsError()) 
 		{
-			std::cout << "Error after game update: " << resultMessage.GetMessage() << std::endl;
+			std::cout << "Error after game update: " << resultMessage.GetMessageString() << std::endl;
+			// TODO 
+			// DisplayErrorMessage();
+		}
+		else if (resultMessage.IsBallMiss()) 
+		{
+			std::cout << "Point scored: " << resultMessage.GetMessageString() << std::endl;
+			_referee->InterpretBallMessage(resultMessage);
+			
+			// for the moment log current result
+			_referee->GetCurrentResult();
+			
+			// TODO 
+			// if referee get result is match done show end popup otherwise simply update scores
+
 			ShowGameoverPopup();
 		}
 
@@ -150,6 +164,8 @@ void Game::ShowGameoverPopup()
 	}
 }
 
+// static members initialized
 Game::GameState Game::_gameState = Uninitialized;
 sf::RenderWindow Game::_mainWindow;
 GameObjectManager Game::_gameObjectManager;
+std::unique_ptr<Referee> Game::_referee = std::make_unique<Referee>();

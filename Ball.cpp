@@ -39,12 +39,15 @@ GameMessage GameBall::Update()
 	if (IsWinBottomBorderTouched())
 	{
 		// for testing purpose a popup for gameover and restarting the game is displayed
-		return GameMessage("Missed the ball!", true);
+		return GameMessage(GameMessage::message_type_t::PLAYER_MISS, "player paddle missed the ball!", false);
 	}
-	// reflection top (to be removed)
+	// top border of the window reached by the ball ==> computer miss
 	if (IsWinTopBorderTouched())
 	{
-		_angle = -_angle;
+		return GameMessage(GameMessage::message_type_t::COMPUTER_MISS, "Computer paddle missed the ball!", false);
+		
+		// reflection top (to be removed)
+		// _angle = -_angle;
 	}
 	// reflection on window left/right sides
 	else if (IsWinLeftBorderTouched() ||

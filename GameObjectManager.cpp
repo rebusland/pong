@@ -82,7 +82,7 @@ void GameObjectManager::DrawAll(sf::RenderWindow& renderWindow)
 
 GameMessage GameObjectManager::UpdateAll()
 {
-	GameMessage messageFromObjectsUpdate("", false);
+	GameMessage messageFromObjectsUpdate = GameMessage::EmptySuccessMessage();
 
 	std::map<std::string, VisibleGameObject*>::const_iterator itr = _gameObjects.begin();
 
@@ -90,7 +90,7 @@ GameMessage GameObjectManager::UpdateAll()
 	{
 		// update object state and if an error is found the message is returned by the objects manager
 		GameMessage currentMessage = itr->second->Update();
-		if (currentMessage.IsError())
+		if (currentMessage.IsError() || currentMessage.IsBallMiss())
 		{
 			messageFromObjectsUpdate = currentMessage;
 		}

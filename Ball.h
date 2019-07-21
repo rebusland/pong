@@ -1,7 +1,6 @@
 #pragma once
 #include "visiblegameobject.h"
 
-
 class GameBall : public VisibleGameObject
 {
 public:

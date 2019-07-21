@@ -1,4 +1,5 @@
 #pragma once
+#include "Referee.h"
 #include "PlayerPaddle.h"
 #include "ComputerPaddle.h"
 #include "Ball.h"
@@ -41,4 +42,5 @@ private:
 	// static sf::RenderWindow _gameoverWindow;
 
 	static GameObjectManager _gameObjectManager;
+	static std::unique_ptr<Referee> _referee;
 };

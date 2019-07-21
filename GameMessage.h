@@ -4,18 +4,31 @@
  * from a game object (e.g. the ball) can propagate to the game handler class indicating if the game flow should change.
  * This general interface can be extended to more specific messages. 
  */
-class GameMessage 
+class GameMessage
 {
 public:
+
+	typedef enum
+	{
+		SUCCESS,
+		PLAYER_MISS,
+		COMPUTER_MISS,
+		ERROR
+	} message_type_t;
+
 	// constructors
 	GameMessage() = default;
-	GameMessage(std::string msg, bool isError);
+	GameMessage(message_type_t msgType, std::string msgString, bool isError);
 
 	static GameMessage EmptySuccessMessage();
-	std::string GetMessage(); 
-	bool IsError();
+	
+	const message_type_t& GetMessageType() const;
+	const std::string& GetMessageString() const; 
+	bool IsError() const;
+	bool IsBallMiss() const;
 
 private:
-	std::string _message;
+	message_type_t _messageType;
+	std::string _messageString;
 	bool _isError;
 };
