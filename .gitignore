@@ -1,0 +1,16 @@
+# DLL
+*.dll
+
+# Visual studio files
+*.vcxproj
+*.vcxproj.*
+
+# executable
+*.exe
+
+# Visual studio folders
+Debug
+Release
+
+#images folder
+images
