@@ -1,6 +1,6 @@
 #include "pch.h"
-#include "ComputerPaddle.h"
-#include "Game.h"
+#include "inc/ComputerPaddle.h"
+#include "inc/Game.h"
 
 ComputerPaddle::~ComputerPaddle()
 {

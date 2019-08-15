@@ -1,6 +1,6 @@
 #include "pch.h"
-#include "Game.h"
-#include "ScoreBoard.h"
+#include "inc/Game.h"
+#include "inc/ScoreBoard.h"
 
 /** SCOREBOARD::SCOREBOX **/
 ScoreBoard::ScoreBox::ScoreBox(const ScoreBoard& scoreBoard, const sf::String& name, const sf::Vector2f& position) : 

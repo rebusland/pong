@@ -1,9 +1,9 @@
 #include "pch.h"
-#include "Game.h"
-#include "Paddle.h"
-#include "MainMenu.h"
-#include "SplashScreen.h"
-#include "GameoverPopup.h"
+#include "inc/Game.h"
+#include "inc/Paddle.h"
+#include "inc/MainMenu.h"
+#include "inc/SplashScreen.h"
+#include "inc/GameoverPopup.h"
 
 void Game::Start(void)
 {

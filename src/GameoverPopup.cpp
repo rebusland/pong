@@ -1,6 +1,6 @@
 #include "pch.h"
-#include "Game.h"
-#include "GameoverPopup.h"
+#include "inc/Game.h"
+#include "inc/GameoverPopup.h"
 
 GameoverPopup::GameoverPopup() : 
 	_gameoverWindow(sf::VideoMode(POPUP_WIDTH, POPUP_HEIGHT, 16), "Gameover")

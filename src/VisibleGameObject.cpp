@@ -1,6 +1,6 @@
 #include "pch.h"
-#include "VisibleGameObject.h"
-#include "Game.h"
+#include "inc/VisibleGameObject.h"
+#include "inc/Game.h"
 
 VisibleGameObject::VisibleGameObject() :
 	_isLoaded(false)

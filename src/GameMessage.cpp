@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "GameMessage.h"
+#include "inc/GameMessage.h"
 
 GameMessage::GameMessage(GameMessage::message_type_t msgType, std::string msgString, bool isError) : 
 	_messageType{ msgType }, 

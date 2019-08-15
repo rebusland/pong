@@ -1,6 +1,6 @@
 #include "pch.h"
-#include "Game.h"
-#include "Paddle.h"
+#include "inc/Game.h"
+#include "inc/Paddle.h"
 
 // definition of the static variable PADDLE_WIDTH
 float Paddle::PADDLE_WIDTH = 0;

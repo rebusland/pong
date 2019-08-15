@@ -1,6 +1,6 @@
 #include "pch.h"
-#include "Ball.h"
-#include "Game.h"
+#include "inc/Ball.h"
+#include "inc/Game.h"
 
 // definition of static variable BALL_WIDTH
 float GameBall::BALL_WIDTH = 0;

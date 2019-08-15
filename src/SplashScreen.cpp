@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "SplashScreen.h"
+#include "inc/SplashScreen.h"
 
 void SplashScreen::Show(sf::RenderWindow& renderWindow)
 {

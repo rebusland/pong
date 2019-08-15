@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "MainMenu.h"
+#include "inc/MainMenu.h"
 
 MainMenu::MenuResult MainMenu::Show(sf::RenderWindow& window)
 {
