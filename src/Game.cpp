@@ -1,6 +1,5 @@
 #include "pch.h"
 #include "inc/Game.h"
-#include "inc/Paddle.h"
 #include "inc/MainMenu.h"
 #include "inc/SplashScreen.h"
 #include "inc/GameoverPopup.h"

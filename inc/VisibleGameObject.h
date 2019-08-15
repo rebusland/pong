@@ -1,34 +1,30 @@
 #pragma once
 #include "GameMessage.h"
 
+/**
+ * Interface for all game objects, which are either of types Sprite or Shape.
+ */
 class VisibleGameObject
 {
 public:
-	VisibleGameObject();
-	virtual ~VisibleGameObject();
+	virtual ~VisibleGameObject() 
+	{
+		std::cout << __func__ << std::endl;
+	}
 
-	virtual void Load(std::string filename);
-	virtual void Draw(sf::RenderWindow & window);
-	virtual GameMessage Update();
+	virtual void Draw(sf::RenderWindow & window) = 0;
+	virtual GameMessage Update() = 0;
+	virtual sf::FloatRect GetBounds() const = 0;
+	virtual void SetScale(float sizeX, float sizeY) = 0;
 
-	virtual sf::FloatRect GetBounds() const;
+	virtual void SetPosition(float x, float y) = 0;
+	virtual sf::Vector2f GetPosition() const = 0;
 
-	virtual void SetPosition(float x, float y);
-	// set the x and y dimensions of the object
-	virtual void SetScale(float sizeX, float sizeY);
-	virtual sf::Vector2f GetPosition() const;
-	virtual bool IsWinLeftBorderTouched() const;
-	virtual bool IsWinRightBorderTouched() const;
-	virtual bool IsWinTopBorderTouched() const;
-	virtual bool IsWinBottomBorderTouched() const;
-	virtual bool IsLoaded() const;
-
-protected:
-	sf::Sprite& GetSprite();
-
-private:
-	sf::Sprite  _sprite;
-	sf::Texture _image;
-	std::string _filename;
-	bool _isLoaded;
+	/*
+	 * Every visible object type should implement the logic to check whether it is touching the field borders
+	 */
+	virtual bool IsWinLeftBorderTouched() const = 0;
+	virtual bool IsWinRightBorderTouched() const = 0;
+	virtual bool IsWinTopBorderTouched() const = 0;
+	virtual bool IsWinBottomBorderTouched() const = 0;
 };

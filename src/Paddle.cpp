@@ -1,26 +1,16 @@
 #include "pch.h"
-#include "inc/Game.h"
 #include "inc/Paddle.h"
 
-// definition of the static variable PADDLE_WIDTH
-float Paddle::PADDLE_WIDTH = 0;
-
-Paddle::Paddle()
+Paddle::Paddle() : _paddleShape(sf::Vector2f(PADDLE_WIDTH, PADDLE_HEIGHT))
 {
 	Load("images/paddle.png");
-	assert(IsLoaded());
+	assert(IsTextureLoaded());
 
-	GetSprite().setOrigin(GetSprite().getScale().x / 2, GetSprite().getScale().y / 2);
-	Paddle::PADDLE_WIDTH = this->GetBounds().width;
+	Sprite::setOrigin(_paddleShape.getScale().x / 2, _paddleShape.getScale().y / 2);
+	// Paddle::PADDLE_WIDTH = this->GetBounds().width;
 }
 
 Paddle::~Paddle()
 {
 	std::cout << __func__ << std::endl;
 }
-
-void Paddle::Draw(sf::RenderWindow & rw)
-{
-	VisibleGameObject::Draw(rw);
-}
-

@@ -23,7 +23,7 @@ GameMessage ComputerPaddle::Update()
 	}
 		
 	// increment current position by dx = v * dt
-	GetSprite().move(speed * Game::WIN_UPDATE_TIME, 0);
+	Sprite::move(speed * Game::WIN_UPDATE_TIME, 0);
 
 	// if no error is encountered then an empty success message is returned
 	return GameMessage::EmptySuccessMessage();

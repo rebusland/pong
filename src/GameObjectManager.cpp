@@ -1,6 +1,7 @@
 #include "pch.h"
-#include "inc/Game.h"
 #include "inc/GameObjectManager.h"
+#include "inc/Paddle.h"
+#include "inc/Ball.h"
 
 GameObjectManager::GameObjectManager()
 {

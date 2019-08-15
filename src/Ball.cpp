@@ -8,9 +8,9 @@ float GameBall::BALL_WIDTH = 0;
 GameBall::GameBall()
 {
 	Load("images/ball.png");
-	assert(IsLoaded());
+	assert(IsTextureLoaded());
 
-	GetSprite().setOrigin(GetSprite().getScale().x / 2, GetSprite().getScale().y / 2);
+	Sprite::setOrigin(Sprite::getScale().x / 2, Sprite::getScale().y / 2);
 	BALL_WIDTH = this->GetBounds().width;
 
 	// initialize random seed:
@@ -28,7 +28,7 @@ GameBall::~GameBall()
 
 void GameBall::Draw(sf::RenderWindow& rw)
 {
-	VisibleGameObject::Draw(rw);
+	SpriteGameObject::Draw(rw);
 }
 
 GameMessage GameBall::Update()
@@ -62,7 +62,7 @@ GameMessage GameBall::Update()
 	for (auto x : Game::GetPaddlesBounds())
 	{
 		// if ball collides with paddle bounds it bounces back according to the current paddle motion
-		if (GetSprite().getGlobalBounds().intersects(x))
+		if (Sprite::getGlobalBounds().intersects(x))
 		{
 			std::cout << "Collision! \n";
 			if (!_hasCollided)
@@ -77,7 +77,7 @@ GameMessage GameBall::Update()
 	float dx = BALL_SPEED * cos(_angle * PI / 180) * Game::WIN_UPDATE_TIME; // dx = v * cos(angle) * dt
 	float dy = BALL_SPEED * sin(_angle * PI / 180) * Game::WIN_UPDATE_TIME; // dy = v * sin(angle) * dt
 
-	GetSprite().move(dx, dy);
+	Sprite::move(dx, dy);
 
 	// if no problem occured an empty success message is sent
 	return GameMessage::EmptySuccessMessage();

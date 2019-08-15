@@ -1,7 +1,7 @@
 #pragma once
-#include "visiblegameobject.h"
+#include "SpriteGameObject.h"
 
-class GameBall : public VisibleGameObject
+class GameBall : public SpriteGameObject
 {
 public:
 	GameBall();

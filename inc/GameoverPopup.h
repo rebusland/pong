@@ -1,5 +1,4 @@
 #pragma once
-#include "pch.h"
 
 /*
  * Handles popup for game over message.

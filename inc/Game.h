@@ -4,15 +4,20 @@
  *  - replace ball and paddles images with a sfml Shape objects
  *  - realize a more realistic computer paddle
  *  - provide difficulty level selection (tuning ball speed and computer paddle reactiveness)
+ *	- Adapt comments format to fit Deoxygen standards
+ *	- Turn project into a CONAN project, if possible.
+ *	- Measure time performance with chrono for each relevant method. Create a timer utility to be reused.
+	  Is that possible to do tracing?
+ *	- Unit testing (search for a valid framework) and test code coverage (GCOV on Windows is possible?)
  */
 
 #pragma once
 #include "ScoreBoard.h"
 #include "Referee.h"
+#include "GameObjectManager.h"
+#include "Ball.h"
 #include "PlayerPaddle.h"
 #include "ComputerPaddle.h"
-#include "Ball.h"
-#include "GameObjectManager.h"
 
 class Game
 {
