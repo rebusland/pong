@@ -2,11 +2,6 @@
 #include "inc/ComputerPaddle.h"
 #include "inc/Game.h"
 
-ComputerPaddle::~ComputerPaddle()
-{
-	std::cout << __func__ << std::endl;
-}
-
 GameMessage ComputerPaddle::Update()
 {
 	// get ball position, according to difficulty level the computer paddle should be able to keep up with ball movements
@@ -23,7 +18,7 @@ GameMessage ComputerPaddle::Update()
 	}
 		
 	// increment current position by dx = v * dt
-	Sprite::move(speed * Game::WIN_UPDATE_TIME, 0);
+	MovePaddle(speed * Game::WIN_UPDATE_TIME);
 
 	// if no error is encountered then an empty success message is returned
 	return GameMessage::EmptySuccessMessage();

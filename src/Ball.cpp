@@ -5,11 +5,9 @@
 // definition of static variable BALL_WIDTH
 float GameBall::BALL_WIDTH = 0;
 
-GameBall::GameBall()
+GameBall::GameBall() : SpriteGameObject(BALL_DEFAULT_IMAGE_PATH)
 {
-	Load("images/ball.png");
-	assert(IsTextureLoaded());
-
+	// TODO add SetOrigin method to SpriteGameObject
 	Sprite::setOrigin(Sprite::getScale().x / 2, Sprite::getScale().y / 2);
 	BALL_WIDTH = this->GetBounds().width;
 

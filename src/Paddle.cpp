@@ -1,16 +1,54 @@
 #include "pch.h"
 #include "inc/Paddle.h"
 
-Paddle::Paddle() : _paddleShape(sf::Vector2f(PADDLE_WIDTH, PADDLE_HEIGHT))
+void Paddle::Draw(sf::RenderWindow & window)
 {
-	Load("images/paddle.png");
-	assert(IsTextureLoaded());
-
-	Sprite::setOrigin(_paddleShape.getScale().x / 2, _paddleShape.getScale().y / 2);
-	// Paddle::PADDLE_WIDTH = this->GetBounds().width;
+	window.draw(*this); // Paddle, as a RectangleShape, has a proper implementation of draw method
 }
 
-Paddle::~Paddle()
+sf::FloatRect Paddle::GetBounds() const
 {
-	std::cout << __func__ << std::endl;
+	return sf::RectangleShape::getGlobalBounds();
 }
+
+void Paddle::SetScale(float sizeX, float sizeY)
+{
+	sf::RectangleShape::setScale(sizeX, sizeY);
+}
+
+void Paddle::SetPosition(float x, float y)
+{
+	sf::RectangleShape::setPosition(x, y);
+}
+
+sf::Vector2f Paddle::GetPosition() const
+{
+	return sf::RectangleShape::getPosition();
+}
+
+void Paddle::MovePaddle(float dx)
+{
+	RectangleShape::move(dx, 0); // dy = 0
+}
+
+/*
+bool Paddle::IsWinLeftBorderTouched() const
+{
+	return false;
+}
+
+bool Paddle::IsWinRightBorderTouched() const
+{
+	return false;
+}
+
+bool Paddle::IsWinTopBorderTouched() const
+{
+	return false;
+}
+
+bool Paddle::IsWinBottomBorderTouched() const
+{
+	return false;
+}
+*/

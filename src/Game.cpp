@@ -24,9 +24,9 @@ void Game::Start(void)
 	ComputerPaddle *computerPaddle = new ComputerPaddle();
 	GameBall *ball = new GameBall();
 
+	_gameObjectManager.Add("Ball", ball);
 	_gameObjectManager.Add("PaddlePlayer", player1);
 	_gameObjectManager.Add("ComputerPaddle", computerPaddle);
-	_gameObjectManager.Add("Ball", ball);
 
 	SetGameObjectsDefaultPosition();
 

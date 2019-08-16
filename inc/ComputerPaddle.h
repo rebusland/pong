@@ -4,7 +4,10 @@
 class ComputerPaddle : public Paddle
 {
 public:
-	~ComputerPaddle();
+	~ComputerPaddle()
+	{
+		std::cout << __func__ << std::endl;
+	}
 
 	/*
  	 * Implements computer paddle movements logic.

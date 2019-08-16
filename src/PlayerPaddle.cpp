@@ -2,11 +2,6 @@
 #include "inc/PlayerPaddle.h"
 #include "inc/Game.h"
 
-PlayerPaddle::~PlayerPaddle()
-{
-	std::cout << __func__ << std::endl;
-}
-
 GameMessage PlayerPaddle::Update()
 {
 	float speed = 0.0;
@@ -24,7 +19,7 @@ GameMessage PlayerPaddle::Update()
 	// std::cout << "Paddle bounds: " << GetSprite().getGlobalBounds().left << ", " << GetSprite().getGlobalBounds().width << std::endl;
 
 	// increment current position by dx = v * dt
-	Sprite::move(speed * Game::WIN_UPDATE_TIME, 0);
+	MovePaddle(speed * Game::WIN_UPDATE_TIME);
 
 	// if no problem were encountered then an empty success message is returned
 	return GameMessage::EmptySuccessMessage();

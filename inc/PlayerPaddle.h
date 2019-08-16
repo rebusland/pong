@@ -4,7 +4,10 @@
 class PlayerPaddle : public Paddle
 {
 public:
-	~PlayerPaddle();
+	~PlayerPaddle() 
+	{
+		std::cout << __func__ << std::endl;
+	}
 
 	GameMessage Update() override;
 };

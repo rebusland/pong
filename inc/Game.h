@@ -19,6 +19,9 @@
 #include "PlayerPaddle.h"
 #include "ComputerPaddle.h"
 
+ // path to default images for Sprite objects
+#define  BALL_DEFAULT_IMAGE_PATH "images/ball.png"
+
 class Game
 {
 
