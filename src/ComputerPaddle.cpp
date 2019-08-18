@@ -12,7 +12,7 @@ GameMessage ComputerPaddle::Update()
 	{
 		speed = PADDLE_SPEED;
 	}
-	else if (this->GetBounds().left > currentBallPositionX + GameBall::BALL_WIDTH)
+	else if (this->GetBounds().left > currentBallPositionX + GameBall::BALL_RADIUS)
 	{
 		speed = -PADDLE_SPEED;
 	}

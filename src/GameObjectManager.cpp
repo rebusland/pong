@@ -2,6 +2,7 @@
 #include "inc/GameObjectManager.h"
 #include "inc/Paddle.h"
 #include "inc/Ball.h"
+#include "inc/Game.h"
 
 GameObjectManager::GameObjectManager()
 {
@@ -99,4 +100,14 @@ GameMessage GameObjectManager::UpdateAll()
 	}
 
 	return messageFromObjectsUpdate;
+}
+
+void GameObjectManager::SetGameObjectsDefaultPosition()
+{
+	// ball default position is at the center of the window
+	Get("Ball")->SetPosition((Game::FIELD_WIDTH / 2), (Game::FIELD_HEIGHT / 2) - GameBall::BALL_RADIUS * 0.5);
+
+	// player and computer paddle are at the centered and in opposite sides of the field
+	Get("PaddlePlayer")->SetPosition((Game::FIELD_WIDTH / 2) - Paddle::PADDLE_WIDTH * 0.5, Game::FIELD_HEIGHT - Game::PADDLE_VERTICAL_DISTANCE);
+	Get("ComputerPaddle")->SetPosition((Game::FIELD_WIDTH / 2) - Paddle::PADDLE_WIDTH * 0.5, Game::PADDLE_VERTICAL_DISTANCE);
 }

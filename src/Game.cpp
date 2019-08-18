@@ -28,7 +28,7 @@ void Game::Start(void)
 	_gameObjectManager.Add("PaddlePlayer", player1);
 	_gameObjectManager.Add("ComputerPaddle", computerPaddle);
 
-	SetGameObjectsDefaultPosition();
+	_gameObjectManager.SetGameObjectsDefaultPosition();
 
 	_gameState = Game::ShowingSplash;
 
@@ -40,16 +40,6 @@ void Game::Start(void)
 	}
 
 	_mainWindow.close();
-}
-
-void Game::SetGameObjectsDefaultPosition() 
-{
-	// ball default position is at the center of the window
-	_gameObjectManager.Get("Ball")->SetPosition((FIELD_WIDTH / 2), (FIELD_HEIGHT / 2) - GameBall::BALL_WIDTH * 0.5);
-
-	// player and computer paddle are at the centered and in opposite sides of the field
-	_gameObjectManager.Get("PaddlePlayer") -> SetPosition((FIELD_WIDTH / 2) - Paddle::PADDLE_WIDTH * 0.5, FIELD_HEIGHT - PADDLE_VERTICAL_DISTANCE);
-	_gameObjectManager.Get("ComputerPaddle") -> SetPosition((FIELD_WIDTH / 2) - Paddle::PADDLE_WIDTH * 0.5, PADDLE_VERTICAL_DISTANCE);
 }
 
 void Game::GameLoop()
@@ -118,7 +108,7 @@ void Game::GameLoop()
 				// wait for one second and restart
 				std::this_thread::sleep_for(std::chrono::seconds(1));
 				// TODO countdown to restart
-				SetGameObjectsDefaultPosition();
+				_gameObjectManager.SetGameObjectsDefaultPosition();
 				// TODO set a new randon angle for the ball
 			}
 		}
@@ -162,7 +152,7 @@ void Game::ShowGameoverPopup()
 		break;
 	case GameoverPopup::Retry:
 		// reset game objects position and restore playing window
-		SetGameObjectsDefaultPosition();
+		_gameObjectManager.SetGameObjectsDefaultPosition();
 		_scoreBoard.Clear();
 		_referee->ResetScore();
 		_gameState = Game::Playing;

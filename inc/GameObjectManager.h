@@ -29,6 +29,8 @@ public:
 
 	GameMessage UpdateAll();
 
+	void SetGameObjectsDefaultPosition();
+
 private:
 	std::map<std::string, VisibleGameObject*> _gameObjects;
 

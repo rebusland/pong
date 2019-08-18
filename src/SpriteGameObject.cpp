@@ -5,7 +5,12 @@ SpriteGameObject::SpriteGameObject(const std::string& fileName) : _filename {fil
 {
 	// Unable to load default image for sprite texture from "_filename"
 	assert(_image.loadFromFile(fileName));
+
+	// check that both texture sizes are at least greater than one pixel
+	assert(_image.getSize().x > 1 && _image.getSize().y > 1);
+
 	setTexture(_image);
+
 	_isLoaded = true;
 }
 
@@ -16,6 +21,7 @@ void SpriteGameObject::LoadTexture(std::string fileName)
 		_isLoaded = false;
 		// TODO implement a custom exception miming std::ios_base::failure exception?
 		const std::string errorMessage = "Unable to load image for texture. File " + fileName + " not found";
+		std::cout << errorMessage << std::endl;
 		throw std::runtime_error(errorMessage);
 	}
 	else
@@ -25,55 +31,16 @@ void SpriteGameObject::LoadTexture(std::string fileName)
 	}
 }
 
-bool SpriteGameObject::IsTextureLoaded() const
-{
-	return _isLoaded;
-}
-
 void SpriteGameObject::Draw(sf::RenderWindow & renderWindow)
 {
 	renderWindow.draw(*this); // *this as a Sprite will have a proper implementation for Drawable interface
 }
 
-void SpriteGameObject::SetScale(float sizeX, float sizeY)
+void SpriteGameObject::SetSize(float sizeX, float sizeY) 
 {
-	Sprite::setScale(sizeX, sizeY);
+	// texture sizes are > 0 (see SpriteGameObject constructor constraints)
+	SetScale(
+		sizeX / Sprite::getLocalBounds().width,
+		sizeY / Sprite::getLocalBounds().height
+	);
 }
-
-void SpriteGameObject::SetPosition(float x, float y)
-{
-	Sprite::setPosition(x, y);
-}
-
-sf::Vector2f SpriteGameObject::GetPosition() const
-{
-	return Sprite::getPosition();
-}
-
-sf::FloatRect SpriteGameObject::GetBounds() const
-{
-	return Sprite::getGlobalBounds();
-}
-
-/*
-
-bool SpriteGameObject::IsWinLeftBorderTouched() const
-{
-	return GetPosition().x <= 0;
-}
-
-bool SpriteGameObject::IsWinRightBorderTouched() const
-{
-	return (GetPosition().x >= Game::FIELD_WIDTH - GetBounds().width);
-}
-
-bool SpriteGameObject::IsWinTopBorderTouched() const
-{
-	return GetPosition().y <= 0;
-}
-
-bool SpriteGameObject::IsWinBottomBorderTouched() const
-{
-	return (GetPosition().y >= Game::FIELD_HEIGHT - GetBounds().height);
-}
-*/

@@ -3,29 +3,36 @@
 
 class GameBall : public SpriteGameObject
 {
-public:
-	GameBall();
-	virtual ~GameBall();
+	public:
+		GameBall();
+		virtual ~GameBall() { std::cout << __func__ << std::endl; }
 
-	GameMessage Update() override;
-	void Draw(sf::RenderWindow& rw) override;
+		GameMessage Update() override;
+		void Draw(sf::RenderWindow& rw) override { SpriteGameObject::Draw(rw); }
 
-	double ComputeBallPaddleAngle(double upcomingAngle, const sf::FloatRect& paddleBounds) const;
+		/**
+		 * Algorithm to calculate the ball emerging angle after a collision with a paddle.
+		 * This emerging angle depends from the part of the paddle which hits the ball: it should somehow
+		 * simulates the player hitting forehand of backhand.
+		 */
+		double ComputeBallPaddleAngle(double upcomingAngle, const sf::FloatRect& paddleBounds) const;
 	
-public:
-	// ball velocity modulus (assumed constant among the shots from the two players)
-	static constexpr float BALL_SPEED = 400;
+	public:
+		// ball velocity modulus (assumed constant among the shots from the two players)
+		static constexpr float BALL_SPEED = 600;
 
-	// ball width
-	static float BALL_WIDTH;
+		// ball radius in pixels, used when a resize of a ball image for the sprite is required
+		static constexpr float BALL_RADIUS = 30;
 
-private:
-	/*
-	 * Current angle at which the ball is moving.
-	 * In case a paddle or the windows border are hit the angle is reflected (according to the paddle speed)
-	 */
-	double _angle;
+		// angle spread allowed for the ball after a paddle hit
+		static constexpr float BALL_ANGLE_SPREAD = 45;
 
-	bool _hasCollided = false;
+	private:
+		/*
+		 * Current angle at which the ball is moving.
+		 * In case a paddle or the windows border are hit the angle is reflected (according to the paddle speed)
+		 */
+		double _angle;
 
+		bool _hasCollidedWithPaddle = false;
 };

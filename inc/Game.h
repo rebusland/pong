@@ -1,11 +1,14 @@
 /**
  * TODO:
  *  - implement a warning popup to notify program errors
- *  - replace ball and paddles images with a sfml Shape objects
  *  - realize a more realistic computer paddle
  *  - provide difficulty level selection (tuning ball speed and computer paddle reactiveness)
- *	- Adapt comments format to fit Deoxygen standards
- *	- Turn project into a CONAN project, if possible.
+ *	- command shortcut to momentarily pause the game
+ *  - add a game options section allowing to select difficulty level, name, ball speed..
+ *
+ *
+ *	- Adapt comments format to fit Deoxygen standards (?)
+ *	- Turn project into a CONAN project, if possible (?)
  *	- Measure time performance with chrono for each relevant method. Create a timer utility to be reused.
 	  Is that possible to do tracing?
  *	- Unit testing (search for a valid framework) and test code coverage (GCOV on Windows is possible?)
@@ -20,7 +23,8 @@
 #include "ComputerPaddle.h"
 
  // path to default images for Sprite objects
-#define  BALL_DEFAULT_IMAGE_PATH "images/ball.png"
+// #define  BALL_DEFAULT_IMAGE_PATH "images/ball.png"
+#define  BALL_DEFAULT_IMAGE_PATH "images/tennis-ball-icon-cropped.png"
 
 class Game
 {
@@ -78,7 +82,6 @@ public:
 	static constexpr int PADDLE_VERTICAL_DISTANCE = 60;
 
 private:
-	static void SetGameObjectsDefaultPosition();
 	static bool IsExiting()
 	{
 		return _gameState == Game::Exiting;

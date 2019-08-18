@@ -15,9 +15,6 @@ GameMessage PlayerPaddle::Update()
 		speed = PADDLE_SPEED;
 	}
 
-	// std::cout << "old position: " << this->GetPosition().x << std::endl;
-	// std::cout << "Paddle bounds: " << GetSprite().getGlobalBounds().left << ", " << GetSprite().getGlobalBounds().width << std::endl;
-
 	// increment current position by dx = v * dt
 	MovePaddle(speed * Game::WIN_UPDATE_TIME);
 
