@@ -1,19 +1,19 @@
 #pragma once
-#include "VisibleGameObject.h"
+#include "GameObject.h"
 #include "GameMessage.h"
 
-class GameObjectManager
+class GameObjectsManager
 {
 public:
-	GameObjectManager();
-	~GameObjectManager();
+	GameObjectsManager() { std::cout << __func__ << std::endl; }
+	~GameObjectsManager();
 
-	void Add(std::string name, VisibleGameObject* gameObject);
+	void Add(std::string name, GameObject* gameObject);
 	void Remove(std::string name);
 	int GetObjectCount() const;
 
 	// TODO implement specific getters for game objects (ball, playerPaddle and computerPaddle)
-	VisibleGameObject* Get(std::string name) const;
+	GameObject* Get(std::string name) const;
 
 	/**
 	 * Used to retrieve all the visible objects bounds: useful in checking whether collision between objects occurs.
@@ -32,11 +32,11 @@ public:
 	void SetGameObjectsDefaultPosition();
 
 private:
-	std::map<std::string, VisibleGameObject*> _gameObjects;
+	std::map<const std::string, GameObject*> _gameObjects;
 
 	struct GameObjectDeallocator
 	{
-		void operator()(const std::pair<std::string, VisibleGameObject*> & p) const
+		void operator()(const std::pair<const std::string, GameObject*> & p) const
 		{
 			delete p.second;
 		}

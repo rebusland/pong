@@ -4,13 +4,13 @@
 
 GameMessage PlayerPaddle::Update()
 {
-	float speed = 0.0;
+	float speed{ 0.0 };
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && !IsWinLeftBorderTouched())
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && !_isLeftBorderTouched)
 	{
 		speed = - PADDLE_SPEED;
 	} 
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && !IsWinRightBorderTouched())
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && !_isRightBorderTouched)
 	{
 		speed = PADDLE_SPEED;
 	}
@@ -18,6 +18,9 @@ GameMessage PlayerPaddle::Update()
 	// increment current position by dx = v * dt
 	MovePaddle(speed * Game::WIN_UPDATE_TIME);
 
-	// if no problem were encountered then an empty success message is returned
+	// in any case, enforce a valid paddle position (bounded to game field)
+	EnforceValidPosition();
+
+	// if no problem encountered, then an empty success message is returned
 	return GameMessage::EmptySuccessMessage();
 }

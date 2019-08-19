@@ -168,5 +168,5 @@ const std::string Game::Fonts::PATH_TO_FONTS = "C:/Users/Rebo/Documents/Fonts/";
 sf::Font Game::Fonts::arialFont;
 sf::RenderWindow Game::_mainWindow;
 ScoreBoard Game::_scoreBoard;
-GameObjectManager Game::_gameObjectManager;
+GameObjectsManager Game::_gameObjectManager;
 std::unique_ptr<Referee> Game::_referee = std::make_unique<Referee>();

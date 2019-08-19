@@ -17,7 +17,7 @@
 #pragma once
 #include "ScoreBoard.h"
 #include "Referee.h"
-#include "GameObjectManager.h"
+#include "GameObjectsManager.h"
 #include "Ball.h"
 #include "PlayerPaddle.h"
 #include "ComputerPaddle.h"
@@ -79,6 +79,7 @@ public:
 	// update time for the window (according to an avarage 30 fps)
 	static constexpr float WIN_UPDATE_TIME = (float)1 / 30;
 
+	// paddle distance to the upper and lower borders
 	static constexpr int PADDLE_VERTICAL_DISTANCE = 60;
 
 private:
@@ -106,6 +107,6 @@ private:
 	// static sf::RenderWindow _gameoverWindow;
 	static ScoreBoard _scoreBoard;
 
-	static GameObjectManager _gameObjectManager;
+	static GameObjectsManager _gameObjectManager;
 	static std::unique_ptr<Referee> _referee;
 };

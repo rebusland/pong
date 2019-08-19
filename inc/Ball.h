@@ -1,14 +1,20 @@
 #pragma once
-#include "SpriteGameObject.h"
+#include "SpriteWrapper.h"
+#include "GameObject.h"
 
-class GameBall : public SpriteGameObject
+class GameBall : 
+	public virtual GameObject,
+	public virtual SpriteWrapper
 {
 	public:
 		GameBall();
 		virtual ~GameBall() { std::cout << __func__ << std::endl; }
 
 		GameMessage Update() override;
-		void Draw(sf::RenderWindow& rw) override { SpriteGameObject::Draw(rw); }
+		void Draw(sf::RenderWindow& rw) override 
+		{ 
+			rw.draw(*this); // Ball, inheriting from Sprite object, has a proper definition for draw method.
+		}
 
 		/**
 		 * Algorithm to calculate the ball emerging angle after a collision with a paddle.
@@ -19,10 +25,10 @@ class GameBall : public SpriteGameObject
 	
 	public:
 		// ball velocity modulus (assumed constant among the shots from the two players)
-		static constexpr float BALL_SPEED = 600;
+		static constexpr float BALL_SPEED = 500;
 
 		// ball radius in pixels, used when a resize of a ball image for the sprite is required
-		static constexpr float BALL_RADIUS = 30;
+		static constexpr float BALL_RADIUS = 25;
 
 		// angle spread allowed for the ball after a paddle hit
 		static constexpr float BALL_ANGLE_SPREAD = 45;
@@ -30,7 +36,7 @@ class GameBall : public SpriteGameObject
 	private:
 		/*
 		 * Current angle at which the ball is moving.
-		 * In case a paddle or the windows border are hit the angle is reflected (according to the paddle speed)
+		 * In case a paddle or the windows border are hit the angle is reflected
 		 */
 		double _angle;
 

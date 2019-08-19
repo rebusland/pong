@@ -1,7 +1,7 @@
 #include "pch.h"
-#include "inc/SpriteGameObject.h"
+#include "inc/SpriteWrapper.h"
 
-SpriteGameObject::SpriteGameObject(const std::string& fileName) : _filename {fileName}
+SpriteWrapper::SpriteWrapper(const std::string& fileName) : _filename {fileName}
 {
 	// Unable to load default image for sprite texture from "_filename"
 	assert(_image.loadFromFile(fileName));
@@ -14,7 +14,15 @@ SpriteGameObject::SpriteGameObject(const std::string& fileName) : _filename {fil
 	_isLoaded = true;
 }
 
-void SpriteGameObject::LoadTexture(std::string fileName) 
+void SpriteWrapper::SetSize(float sizeX, float sizeY)
+{
+	setScale(
+		sizeX / getLocalBounds().width,
+		sizeY / getLocalBounds().height
+	);
+}
+
+void SpriteWrapper::LoadTexture(std::string fileName) 
 {
 	if (not _image.loadFromFile(fileName))
 	{
@@ -29,18 +37,4 @@ void SpriteGameObject::LoadTexture(std::string fileName)
 		setTexture(_image);
 		_isLoaded = true;
 	}
-}
-
-void SpriteGameObject::Draw(sf::RenderWindow & renderWindow)
-{
-	renderWindow.draw(*this); // *this as a Sprite will have a proper implementation for Drawable interface
-}
-
-void SpriteGameObject::SetSize(float sizeX, float sizeY) 
-{
-	// texture sizes are > 0 (see SpriteGameObject constructor constraints)
-	SetScale(
-		sizeX / Sprite::getLocalBounds().width,
-		sizeY / Sprite::getLocalBounds().height
-	);
 }
