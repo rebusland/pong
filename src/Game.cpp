@@ -20,13 +20,9 @@ void Game::Start(void)
 	_mainWindow.create(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, 16), "Pong!");
 	_mainWindow.setFramerateLimit(30); // limit frame rate
 
-	PlayerPaddle *player1 = new PlayerPaddle();
-	ComputerPaddle *computerPaddle = new ComputerPaddle();
-	GameBall *ball = new GameBall();
-
-	_gameObjectManager.Add("Ball", ball);
-	_gameObjectManager.Add("PaddlePlayer", player1);
-	_gameObjectManager.Add("ComputerPaddle", computerPaddle);
+	_gameObjectManager.CreateGameObject<PlayerPaddle>("PlayerPaddle");
+	_gameObjectManager.CreateGameObject<ComputerPaddle>("ComputerPaddle");
+	_gameObjectManager.CreateGameObject<GameBall>("Ball");
 
 	_gameObjectManager.SetGameObjectsDefaultPosition();
 
@@ -57,63 +53,63 @@ void Game::GameLoop()
 
 	switch (_gameState)
 	{
-	case Game::ShowingSplash:
-		ShowSplashScreen();
-		break;
+		case Game::ShowingSplash:
+			ShowSplashScreen();
+			break;
 
-	case Game::ShowingMenu:
-		ShowMenu();
-		break;
+		case Game::ShowingMenu:
+			ShowMenu();
+			break;
 
-	case Game::Playing:
-		_mainWindow.clear(sf::Color(0, 0, 0));
+		case Game::Playing:
+			_mainWindow.clear(sf::Color(0, 0, 0));
 
-		_scoreBoard.Draw(_mainWindow); // draw scoreboard on main window
+			_scoreBoard.Draw(_mainWindow); // draw scoreboard on main window
 
-		GameMessage resultMessage = _gameObjectManager.UpdateAll();
-		_gameObjectManager.DrawAll(_mainWindow);
-		_mainWindow.display();
+			GameMessage resultMessage = _gameObjectManager.UpdateAll();
+			_gameObjectManager.DrawAll(_mainWindow);
+			_mainWindow.display();
 		
-		if (resultMessage.IsError()) 
-		{
-			std::cout << "Error after game update: " << resultMessage.GetMessageString() << std::endl;
-			// TODO 
-			// DisplayErrorMessage();
-		}
-		else if (resultMessage.IsBallMiss()) 
-		{
-			std::cout << "Point scored: " << resultMessage.GetMessageString() << std::endl;
-			_referee->InterpretBallMessage(resultMessage);
-			result_t currentResult = _referee->GetCurrentResult();
-
-			// TODO 
-			// if referee get result is match done show end popup otherwise simply update scores
-			_scoreBoard.UpdateScores(currentResult);
-			_scoreBoard.Draw(_mainWindow);
-			_mainWindow.display(); // display to update the score on the window
-
-			// computer wins: gameover
-			if (currentResult.computerScore == result_t::MAX_SCORE) 
+			if (resultMessage.IsError()) 
 			{
-				ShowGameoverPopup();
+				std::cout << "Error after game update: " << resultMessage.GetMessageString() << std::endl;
+				// TODO 
+				// DisplayErrorMessage();
 			}
-			// player wins!!
-			else if (currentResult.playerScore == result_t::MAX_SCORE)
+			else if (resultMessage.IsBallMiss()) 
 			{
-				// TODO go to the next level?
-			}
-			// simply keep up with the match
-			else 
-			{
-				// wait for one second and restart
-				std::this_thread::sleep_for(std::chrono::seconds(1));
-				// TODO countdown to restart
-				_gameObjectManager.SetGameObjectsDefaultPosition();
-				// TODO set a new randon angle for the ball
-			}
-		}
+				std::cout << "Point scored: " << resultMessage.GetMessageString() << std::endl;
+				_referee->InterpretBallMessage(resultMessage);
+				result_t currentResult = _referee->GetCurrentResult();
 
-		break;
+				// TODO 
+				// if referee get result is match done show end popup otherwise simply update scores
+				_scoreBoard.UpdateScores(currentResult);
+				_scoreBoard.Draw(_mainWindow);
+				_mainWindow.display(); // display to update the score on the window
+
+				// computer wins: gameover
+				if (currentResult.computerScore == result_t::MAX_SCORE) 
+				{
+					ShowGameoverPopup();
+				}
+				// player wins!!
+				else if (currentResult.playerScore == result_t::MAX_SCORE)
+				{
+					// TODO go to the next level?
+				}
+				// simply keep up with the match
+				else 
+				{
+					// wait for one second and restart
+					std::this_thread::sleep_for(std::chrono::seconds(1));
+					// TODO countdown to restart
+					_gameObjectManager.SetGameObjectsDefaultPosition();
+					// TODO set a new randon angle for the ball
+				}
+			}
+
+			break;
 	}
 }
 
@@ -130,14 +126,14 @@ void Game::ShowMenu()
 	MainMenu::MenuResult result = mainMenu.Show(_mainWindow);
 	switch (result)
 	{
-	case MainMenu::Exit:
-		_gameState = Game::Exiting;
-		break;
-	case MainMenu::Play:
-		_gameState = Game::Playing;
-		break;
-	default:
-		break;
+		case MainMenu::Exit:
+			_gameState = Game::Exiting;
+			break;
+		case MainMenu::Play:
+			_gameState = Game::Playing;
+			break;
+		default:
+			break;
 	}
 }
 
@@ -147,18 +143,18 @@ void Game::ShowGameoverPopup()
 	GameoverPopup::GameoverPopupResult result = gameoverPopup.Show();
 	switch (result)
 	{
-	case GameoverPopup::ExitGame:
-		_gameState = Game::Exiting;
-		break;
-	case GameoverPopup::Retry:
-		// reset game objects position and restore playing window
-		_gameObjectManager.SetGameObjectsDefaultPosition();
-		_scoreBoard.Clear();
-		_referee->ResetScore();
-		_gameState = Game::Playing;
-		break;
-	default:
-		break;
+		case GameoverPopup::ExitGame:
+			_gameState = Game::Exiting;
+			break;
+		case GameoverPopup::Retry:
+			// reset game objects position and restore playing window
+			_gameObjectManager.SetGameObjectsDefaultPosition();
+			_scoreBoard.Clear();
+			_referee->ResetScore();
+			_gameState = Game::Playing;
+			break;
+		default:
+			break;
 	}
 }
 
