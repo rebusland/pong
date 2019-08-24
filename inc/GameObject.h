@@ -1,5 +1,6 @@
 #pragma once
 #include "GameMessage.h"
+#include "Utilities.h"
 
 /**
  * Generic interface for custom game objects, which can be either of types Sprite or Shape.
@@ -8,7 +9,7 @@
 class GameObject
 {
 	public:
-		virtual ~GameObject() { std::cout << __func__ << std::endl; }
+		virtual ~GameObject() { LOG(__func__) }
 
 		virtual void Draw(sf::RenderWindow & window) = 0;
 		virtual GameMessage Update() = 0;

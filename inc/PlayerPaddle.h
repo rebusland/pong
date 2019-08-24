@@ -1,13 +1,11 @@
 #pragma once
 #include "Paddle.h"
+#include "Utilities.h"
 
 class PlayerPaddle : public Paddle
 {
 public:
-	~PlayerPaddle() 
-	{
-		std::cout << __func__ << std::endl;
-	}
+	~PlayerPaddle() { LOG(__func__)	}
 
 	GameMessage Update() override;
 };

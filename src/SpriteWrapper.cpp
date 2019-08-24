@@ -29,7 +29,7 @@ void SpriteWrapper::LoadTexture(std::string fileName)
 		_isLoaded = false;
 		// TODO implement a custom exception miming std::ios_base::failure exception?
 		const std::string errorMessage = "Unable to load image for texture. File " + fileName + " not found";
-		std::cout << errorMessage << std::endl;
+		LOG(errorMessage);
 		throw std::runtime_error(errorMessage);
 	}
 	else

@@ -1,11 +1,12 @@
 #include "pch.h"
 #include "inc/Paddle.h"
 #include "inc/Game.h"
+#include "inc/Utilities.h"
 
 Paddle::Paddle():
 	sf::RectangleShape(sf::Vector2f(PADDLE_WIDTH, PADDLE_HEIGHT))
 {
-	std::cout << __func__ << std::endl;
+	LOG(__func__)
 }
 
 void Paddle::EnforceValidPosition()

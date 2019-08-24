@@ -20,8 +20,6 @@ GameBall::GameBall() : SpriteWrapper(BALL_DEFAULT_IMAGE_PATH)
 
 GameMessage GameBall::Update()
 {
-	// std::cout << GetPosition().x << ", " << GetPosition().y << std::endl;
-
 	double startingPositionY = getPosition().y;
 
 	// if the bottom border of the window is reached than the player on that side (user for the moment) lose the game
@@ -47,7 +45,7 @@ GameMessage GameBall::Update()
 		// if ball collides with paddle bounds it bounces back according to the current paddle motion
 		if (getGlobalBounds().intersects(x))
 		{
-			std::cout << "Collision! \n";
+			LOG("Collision!");
 
 			if (!_hasCollidedWithPaddle)
 				_angle = ComputeBallPaddleAngle(_angle, x);
@@ -86,16 +84,16 @@ double GameBall::ComputeBallPaddleAngle(double upcomingAngle, const sf::FloatRec
 	double ballCenter = getGlobalBounds().left + getGlobalBounds().width / 2;
 	double paddleCenterX = paddleBounds.left + paddleBounds.width / 2;
 
-	std::cout << "ball left bound: " << getGlobalBounds().left << ", ball width: " << getGlobalBounds().width << "\n";
-	std::cout << "paddle left bound: " << paddleBounds.left << ", paddle width: " << paddleBounds.width << "\n";
-	std::cout << "ball center: " << ballCenter << ", paddleCenterX: " << paddleCenterX << "\n";
+	LOG("ball left bound: " << getGlobalBounds().left << ", ball width: " << getGlobalBounds().width);
+	LOG("paddle left bound: " << paddleBounds.left << ", paddle width: " << paddleBounds.width);
+	LOG("ball center: " << ballCenter << ", paddleCenterX: " << paddleCenterX);
 
 	// 270 (reverse direction) + angle spread (backhand or forehand)
 	double emergingAngle = 270 + BALL_ANGLE_SPREAD * (ballCenter - paddleCenterX) / (paddleBounds.width / 2);
 
 	emergingAngle = (std::sin(upcomingAngle * PI / 180) >= 0.0) ? emergingAngle : 360 - emergingAngle;
 
-	std::cout << "upcoming angle: " << upcomingAngle << ", emergingAngle: " << emergingAngle << "\n";
+	LOG("upcoming angle: " << upcomingAngle << ", emergingAngle: " << emergingAngle);
 
 	return emergingAngle;
 }

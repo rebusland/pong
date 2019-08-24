@@ -1,5 +1,6 @@
 #pragma once
 #include "GameMessage.h"
+#include "Utilities.h"
 
 using result_t = struct {
 	int playerScore;
@@ -21,7 +22,7 @@ using result_t = struct {
 class Referee 
 {
 public:
-	~Referee() { std::cout << __func__ << std::endl; }
+	~Referee() { LOG(__func__) }
 	void ResetScore() { _result.Clear(); }
 
 	const result_t& GetCurrentResult() const;

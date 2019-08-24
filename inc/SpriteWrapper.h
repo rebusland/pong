@@ -1,5 +1,6 @@
 #pragma once
 #include "GameObject.h"
+#include "Utilities.h"
 
 /**
  * A general custom interface for Sprite objects. It provides wrapper features for native Sprite object,
@@ -16,7 +17,7 @@ class SpriteWrapper :
 		 */
 		SpriteWrapper(const std::string& fileName);
 
-		virtual ~SpriteWrapper() { std::cout << __func__ << std::endl; }
+		virtual ~SpriteWrapper() { LOG(__func__) }
 
 		/**
 		 * Allows to set explicitly the sizes in pixels for the object (shape or sprite).

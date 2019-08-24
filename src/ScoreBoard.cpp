@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "inc/Game.h"
 #include "inc/ScoreBoard.h"
+#include "inc/Utilities.h"
 
 /** SCOREBOARD::SCOREBOX **/
 ScoreBoard::ScoreBox::ScoreBox(const ScoreBoard& scoreBoard, const sf::String& name, const sf::Vector2f& position) : 
@@ -68,7 +69,7 @@ void ScoreBoard::Draw(sf::RenderWindow& window)
 
 void ScoreBoard::UpdateScores(const result_t& updatedResult)
 {
-	std::cout << __func__ <<  std::endl;
+	LOG(__func__)
 	_playerScoreBox.UpdateScore(updatedResult.playerScore);
 	_computerScoreBox.UpdateScore(updatedResult.computerScore);
 }

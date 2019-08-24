@@ -1,5 +1,6 @@
 #pragma once
 #include "GameObject.h"
+#include "Utilities.h"
 
 class Paddle : 
 	public GameObject,
@@ -8,7 +9,7 @@ class Paddle :
 	public:
 		Paddle();
 
-		virtual ~Paddle() {	std::cout << __func__ << std::endl; }
+		virtual ~Paddle() {	LOG(__func__) }
 
 		// Inherited via VisibleGameObject
 		virtual void Draw(sf::RenderWindow & window) override

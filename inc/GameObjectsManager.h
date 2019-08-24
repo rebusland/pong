@@ -1,6 +1,7 @@
 #pragma once
 #include "GameObject.h"
 #include "GameMessage.h"
+#include "Utilities.h"
 
 /**
  * TODO Add singleton constraint
@@ -8,7 +9,7 @@
 class GameObjectsManager
 {
 	public:
-		GameObjectsManager() { std::cout << __func__ << std::endl; }
+		GameObjectsManager() { LOG(__func__) }
 		~GameObjectsManager();
 
 		/**
@@ -20,7 +21,7 @@ class GameObjectsManager
 			// check that the object to create is derived from GameObject and sf::Transformable.
 			// since we cannot use virtual inheritance from Transformable, thus ensuring that GameObject is also
 			// a sf:Transformable object, we are forced to do this sanity check to avoid dynamic_cast-surprises
-			// at runtime
+			// at runtime.
 			static_assert(
 				std::is_base_of<sf::Transformable, T>::value,
 				"Object not inherited from sf::Transformable"

@@ -3,8 +3,9 @@
 #include "inc/MainMenu.h"
 #include "inc/SplashScreen.h"
 #include "inc/GameoverPopup.h"
+#include "inc/Utilities.h"
 
-void Game::Start(void)
+void Game::Start()
 {
 	if (_gameState != Uninitialized)
 	{
@@ -13,13 +14,13 @@ void Game::Start(void)
 
 	if (!LoadFonts()) 
 	{
-		std::cout << "Error while loading text fonts, returning.";
+		LOG("Error while loading text fonts, returning.");
 		return;
 	}
 
 	_mainWindow.create(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, 16), "Pong!");
 	_mainWindow.setFramerateLimit(30); // limit frame rate
-
+	
 	_gameObjectManager.CreateGameObject<PlayerPaddle>("PlayerPaddle");
 	_gameObjectManager.CreateGameObject<ComputerPaddle>("ComputerPaddle");
 	_gameObjectManager.CreateGameObject<GameBall>("Ball");
@@ -72,13 +73,13 @@ void Game::GameLoop()
 		
 			if (resultMessage.IsError()) 
 			{
-				std::cout << "Error after game update: " << resultMessage.GetMessageString() << std::endl;
+				LOG("Error after game update: " << resultMessage.GetMessageString())
 				// TODO 
 				// DisplayErrorMessage();
 			}
 			else if (resultMessage.IsBallMiss()) 
 			{
-				std::cout << "Point scored: " << resultMessage.GetMessageString() << std::endl;
+				LOG("Point scored: " << resultMessage.GetMessageString())
 				_referee->InterpretBallMessage(resultMessage);
 				result_t currentResult = _referee->GetCurrentResult();
 

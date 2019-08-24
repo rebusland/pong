@@ -1,10 +1,11 @@
 #include "pch.h"
 #include "inc/GameoverPopup.h"
+#include "inc/Utilities.h"
 
 GameoverPopup::GameoverPopup() : 
 	_gameoverWindow(sf::VideoMode(POPUP_WIDTH, POPUP_HEIGHT, 16), "Gameover")
 {
-	std::cout << "Constructed GameOver popup \n";
+	LOG(__func__)
 }
 
 GameoverPopup::GameoverPopupResult GameoverPopup::Show()

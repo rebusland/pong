@@ -1,6 +1,7 @@
 #pragma once
 #include "SpriteWrapper.h"
 #include "GameObject.h"
+#include "Utilities.h"
 
 class GameBall : 
 	public virtual GameObject,
@@ -8,7 +9,7 @@ class GameBall :
 {
 	public:
 		GameBall();
-		virtual ~GameBall() { std::cout << __func__ << std::endl; }
+		virtual ~GameBall() { LOG(__func__) }
 
 		GameMessage Update() override;
 		void Draw(sf::RenderWindow& rw) override 

@@ -1,12 +1,13 @@
 #pragma once
 #include "Paddle.h"
+#include "Utilities.h"
 
 class ComputerPaddle : public Paddle
 {
 public:
 	~ComputerPaddle()
 	{
-		std::cout << __func__ << std::endl;
+		LOG(__func__)
 	}
 
 	/*

@@ -5,7 +5,7 @@
  *  - provide difficulty level selection (tuning ball speed and computer paddle reactiveness)
  *	- command shortcut to momentarily pause the game
  *  - add a game options section allowing to select difficulty level, name, ball speed..
- *
+ *	- log4j as logging framework?
  *
  *	- Adapt comments format to fit Deoxygen standards (?)
  *	- Turn project into a CONAN project, if possible (?)

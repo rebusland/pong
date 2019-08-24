@@ -1,9 +1,10 @@
 #include "pch.h"
 #include "inc/Referee.h"
+#include "inc/Utilities.h"
 
 const result_t& Referee::GetCurrentResult() const
 {
-	std::cout << __func__ << ": current result, computer vs player: " << _result.computerScore << " - " << _result.playerScore << std::endl;
+	LOG(__func__ << ": current result, computer vs player: " << _result.computerScore << " - " << _result.playerScore)
 	return _result;
 }
 
@@ -19,18 +20,18 @@ void Referee::InterpretBallMessage(const GameMessage& msg)
 	}
 	else 
 	{
-		std::cout << "Warning: unhandled case, referee received ball message not pertaining to a ball miss." << std::endl;
+		LOG("Warning: unhandled case, referee received ball message not pertaining to a ball miss.")
 	}
 }
 
 void Referee::IncrementComputerScore()
 {
-	std::cout << __func__ <<  ": increment computer score" << std::endl;
+	LOG(__func__ <<  ": increment computer score")
 	++_result.computerScore;
 }
 
 void Referee::IncrementPlayerScore()
 {
-	std::cout << __func__ << ": increment player score" << std::endl;
+	LOG(__func__ << ": increment player score")
 	++_result.playerScore;
 }

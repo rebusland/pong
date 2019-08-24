@@ -1,12 +1,13 @@
 #include "pch.h"
 #include "inc/GameObjectsManager.h"
+#include "inc/Utilities.h"
 #include "inc/Paddle.h"
 #include "inc/Ball.h"
 #include "inc/Game.h"
 
 GameObjectsManager::~GameObjectsManager()
 {
-	std::cout << __func__ << std::endl;
+	LOG(__func__)
 
 	// remove all entries in the gameObjects map, where objects unique_ptrs are stored.
 	_gameObjects.clear();
