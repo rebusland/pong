@@ -5,10 +5,8 @@
 class ComputerPaddle : public Paddle
 {
 public:
-	~ComputerPaddle()
-	{
-		LOG(__func__)
-	}
+	ComputerPaddle(const GameObjectsManager& manager) : Paddle(manager) {}
+	~ComputerPaddle() { LOG(__func__) }
 
 	/*
  	 * Implements computer paddle movements logic.

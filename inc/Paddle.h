@@ -7,7 +7,7 @@ class Paddle :
 	public sf::RectangleShape
 {
 	public:
-		Paddle();
+		Paddle(const GameObjectsManager& manager);
 
 		virtual ~Paddle() {	LOG(__func__) }
 

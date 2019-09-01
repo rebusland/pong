@@ -8,7 +8,7 @@ class GameBall :
 	public virtual SpriteWrapper
 {
 	public:
-		GameBall();
+		GameBall(const GameObjectsManager& manager);
 		virtual ~GameBall() { LOG(__func__) }
 
 		GameMessage Update() override;

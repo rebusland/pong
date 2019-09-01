@@ -17,7 +17,7 @@
 #pragma once
 #include "ScoreBoard.h"
 #include "Referee.h"
-#include "GameObjectsManager.h"
+#include "PongObjectsManager.h"
 #include "Ball.h"
 #include "PlayerPaddle.h"
 #include "ComputerPaddle.h"
@@ -35,15 +35,6 @@ public:
 	{
 		return _mainWindow;
 	}
-	// static sf::RenderWindow& GetGameoverWindow();
-	static std::vector<sf::FloatRect> GetPaddlesBounds()
-	{
-		return _gameObjectManager.GetPaddlesBounds();
-	}
-	static sf::Vector2f GetBallPosition() 
-	{
-		return _gameObjectManager.GetBallPosition();
-	}
 
 	/**
 	 * True if font loading has been successful, false otherwise
@@ -54,6 +45,7 @@ public:
 	}
 
 	// pre-loaded fonts
+	// TODO move in utility "package"
 	static struct Fonts {
 		static sf::Font arialFont;
 
@@ -79,19 +71,20 @@ public:
 	// update time for the window (according to an avarage 30 fps)
 	static constexpr float WIN_UPDATE_TIME = (float)1 / 30;
 
-	// paddle distance to the upper and lower borders
-	static constexpr int PADDLE_VERTICAL_DISTANCE = 60;
-
 private:
 	static bool IsExiting()
 	{
-		return _gameState == Game::Exiting;
+		return _gameState == GameState::Exiting;
 	}
 	static void GameLoop();
 
-	enum GameState {
-		Uninitialized, ShowingSplash, Paused,
-		ShowingMenu, Playing, Exiting
+	enum class GameState {
+		Uninitialized, 
+		ShowingSplash, 
+		Paused,
+		ShowingMenu, 
+		Playing, 
+		Exiting
 	};
 
 	static void ShowSplashScreen();
@@ -104,9 +97,8 @@ private:
 	static GameState _gameState;
 
 	static sf::RenderWindow _mainWindow;
-	// static sf::RenderWindow _gameoverWindow;
 	static ScoreBoard _scoreBoard;
 
-	static GameObjectsManager _gameObjectManager;
+	static PongObjectsManager _pongObjectsManager;
 	static std::unique_ptr<Referee> _referee;
 };

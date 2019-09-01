@@ -7,7 +7,7 @@
 
 void Game::Start()
 {
-	if (_gameState != Uninitialized)
+	if (_gameState != GameState::Uninitialized)
 	{
 		return;
 	}
@@ -21,13 +21,10 @@ void Game::Start()
 	_mainWindow.create(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, 16), "Pong!");
 	_mainWindow.setFramerateLimit(30); // limit frame rate
 	
-	_gameObjectManager.CreateGameObject<PlayerPaddle>("PlayerPaddle");
-	_gameObjectManager.CreateGameObject<ComputerPaddle>("ComputerPaddle");
-	_gameObjectManager.CreateGameObject<GameBall>("Ball");
+	_pongObjectsManager.CreateGameObjects();
+	_pongObjectsManager.SetGameObjectsDefaultPosition();
 
-	_gameObjectManager.SetGameObjectsDefaultPosition();
-
-	_gameState = Game::ShowingSplash;
+	_gameState = GameState::ShowingSplash;
 
 	// here is where the game flow logic and event handling is encapsulated
 	while (!IsExiting())
@@ -47,28 +44,28 @@ void Game::GameLoop()
 		// if closing was requested then we exit from the game loop immediatly
 		if (currentEvent.type == sf::Event::Closed)
 		{
-			_gameState = Game::Exiting;
+			_gameState = GameState::Exiting;
 			return;
 		}
 	}
 
 	switch (_gameState)
 	{
-		case Game::ShowingSplash:
+		case GameState::ShowingSplash:
 			ShowSplashScreen();
 			break;
 
-		case Game::ShowingMenu:
+		case GameState::ShowingMenu:
 			ShowMenu();
 			break;
 
-		case Game::Playing:
+		case GameState::Playing:
 			_mainWindow.clear(sf::Color(0, 0, 0));
 
 			_scoreBoard.Draw(_mainWindow); // draw scoreboard on main window
 
-			GameMessage resultMessage = _gameObjectManager.UpdateAll();
-			_gameObjectManager.DrawAll(_mainWindow);
+			GameMessage resultMessage = _pongObjectsManager.UpdateAll();
+			_pongObjectsManager.DrawAll(_mainWindow);
 			_mainWindow.display();
 		
 			if (resultMessage.IsError()) 
@@ -83,8 +80,6 @@ void Game::GameLoop()
 				_referee->InterpretBallMessage(resultMessage);
 				result_t currentResult = _referee->GetCurrentResult();
 
-				// TODO 
-				// if referee get result is match done show end popup otherwise simply update scores
 				_scoreBoard.UpdateScores(currentResult);
 				_scoreBoard.Draw(_mainWindow);
 				_mainWindow.display(); // display to update the score on the window
@@ -105,7 +100,7 @@ void Game::GameLoop()
 					// wait for one second and restart
 					std::this_thread::sleep_for(std::chrono::seconds(1));
 					// TODO countdown to restart
-					_gameObjectManager.SetGameObjectsDefaultPosition();
+					_pongObjectsManager.SetGameObjectsDefaultPosition();
 					// TODO set a new randon angle for the ball
 				}
 			}
@@ -118,7 +113,7 @@ void Game::ShowSplashScreen()
 {
 	SplashScreen splashScreen;
 	splashScreen.Show(_mainWindow);
-	_gameState = Game::ShowingMenu;
+	_gameState = GameState::ShowingMenu;
 }
 
 void Game::ShowMenu()
@@ -128,10 +123,10 @@ void Game::ShowMenu()
 	switch (result)
 	{
 		case MainMenu::Exit:
-			_gameState = Game::Exiting;
+			_gameState = GameState::Exiting;
 			break;
 		case MainMenu::Play:
-			_gameState = Game::Playing;
+			_gameState = GameState::Playing;
 			break;
 		default:
 			break;
@@ -145,14 +140,14 @@ void Game::ShowGameoverPopup()
 	switch (result)
 	{
 		case GameoverPopup::ExitGame:
-			_gameState = Game::Exiting;
+			_gameState = GameState::Exiting;
 			break;
 		case GameoverPopup::Retry:
 			// reset game objects position and restore playing window
-			_gameObjectManager.SetGameObjectsDefaultPosition();
+			_pongObjectsManager.SetGameObjectsDefaultPosition();
 			_scoreBoard.Clear();
 			_referee->ResetScore();
-			_gameState = Game::Playing;
+			_gameState = GameState::Playing;
 			break;
 		default:
 			break;
@@ -160,10 +155,10 @@ void Game::ShowGameoverPopup()
 }
 
 // static members initialization
-Game::GameState Game::_gameState = Uninitialized;
+Game::GameState Game::_gameState = GameState::Uninitialized;
 const std::string Game::Fonts::PATH_TO_FONTS = "C:/Users/Rebo/Documents/Fonts/";
 sf::Font Game::Fonts::arialFont;
 sf::RenderWindow Game::_mainWindow;
 ScoreBoard Game::_scoreBoard;
-GameObjectsManager Game::_gameObjectManager;
+PongObjectsManager Game::_pongObjectsManager;
 std::unique_ptr<Referee> Game::_referee = std::make_unique<Referee>();

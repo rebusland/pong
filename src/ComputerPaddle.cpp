@@ -4,8 +4,11 @@
 
 GameMessage ComputerPaddle::Update()
 {
+	// let's assume no exception is caugth: Pong objects will be always created by PongObjectManager
+	const auto& pongObjManager = dynamic_cast<const PongObjectsManager&>(_objectManager);
+
 	// get ball position, according to difficulty level the computer paddle should be able to keep up with ball movements
-	float currentBallPositionX = Game::GetBallPosition().x;
+	float currentBallPositionX = pongObjManager.GetBallPosition().x;
 
 	float speed = 0.0;
 	if (getGlobalBounds().left + PADDLE_WIDTH < currentBallPositionX)

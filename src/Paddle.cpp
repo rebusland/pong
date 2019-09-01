@@ -3,7 +3,8 @@
 #include "inc/Game.h"
 #include "inc/Utilities.h"
 
-Paddle::Paddle():
+Paddle::Paddle(const GameObjectsManager& manager):
+	GameObject(manager),
 	sf::RectangleShape(sf::Vector2f(PADDLE_WIDTH, PADDLE_HEIGHT))
 {
 	LOG(__func__)

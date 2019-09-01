@@ -4,19 +4,26 @@
 #include "Utilities.h"
 
 /**
- * TODO Add singleton constraint
+ * TODO Add singleton constraint! (this constraint must act on derived class as well)
  */
 class GameObjectsManager
 {
 	public:
+		/**
+		 * Explicitly declare default move operations, since the default dtor was overloaded.
+		 * Copy operations are disabled still.
+		 */
+		GameObjectsManager(GameObjectsManager&&) = default;
+		GameObjectsManager& operator=(GameObjectsManager&&) = default;
+
 		GameObjectsManager() { LOG(__func__) }
-		~GameObjectsManager();
+		virtual ~GameObjectsManager();
 
 		/**
 		 * Create a game object of type T, and stores its unique pointer into a map (the key is the objectTag)
 		 */
 		template<class T>
-		void CreateGameObject(std::string&& objectTag) 
+		void CreateGameObject(const std::string& objectTag)
 		{
 			// check that the object to create is derived from GameObject and sf::Transformable.
 			// since we cannot use virtual inheritance from Transformable, thus ensuring that GameObject is also
@@ -31,41 +38,29 @@ class GameObjectsManager
 				"Object not inherited from GameObject"
 			);
 
-			std::unique_ptr<GameObject> gameObj = std::make_unique<T>();
+			std::unique_ptr<GameObject> gameObj = std::make_unique<T>(*this);
 
 			_gameObjects.insert(
 				std::make_pair(
-					std::move(objectTag),
+					objectTag,
 					std::move(gameObj)
 				)
 			);
-
-			// _gameObjects.insert(std::pair<const std::string, GameObject*>(name, gameObject));
 		}
 
 		/**
 		 * Remove an object tagged by objTag. It removes it
 		 * return bool: whether the element was found and successfully removed from the _gameObjects map
 		 */
-		bool RemoveGameObject(const std::string& objTag);
+		virtual bool RemoveGameObject(const std::string& objTag);
 
-		void DrawAll(sf::RenderWindow& renderWindow);
+		virtual void DrawAll(sf::RenderWindow& renderWindow);
 
-		GameMessage UpdateAll();
+		virtual GameMessage UpdateAll();
 
-		void SetGameObjectsDefaultPosition();
+		virtual void SetGameObjectsDefaultPosition() = 0;
 
-		// METHODS SPECIFIC TO PONG GAME BELOW //
-
-		/**
-		 * Used to retrieve all the visible objects bounds: useful in checking whether collision between objects occurs.
-		 */
-		std::vector<sf::FloatRect> GetPaddlesBounds() const;
-
-		/**
-		 * Getter for ball position.
-		 */
-		sf::Vector2f GetBallPosition() const;
+		virtual void CreateGameObjects() = 0;
 
 	protected:
 		// TODO implement specific getters for game objects (ball, playerPaddle and computerPaddle)

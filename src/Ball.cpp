@@ -2,7 +2,9 @@
 #include "inc/Ball.h"
 #include "inc/Game.h"
 
-GameBall::GameBall() : SpriteWrapper(BALL_DEFAULT_IMAGE_PATH)
+GameBall::GameBall(const GameObjectsManager& manager) :
+	GameObject(manager),
+	SpriteWrapper(BALL_DEFAULT_IMAGE_PATH)
 {
 	// resize ball image so that at the end we get a ball with radius BALL_RADIUS
 	SetSize(BALL_RADIUS , BALL_RADIUS);
@@ -39,8 +41,11 @@ GameMessage GameBall::Update()
 	// enforce ball's y position so that it does not penetrate into the paddle object (?)
 	bool collisionWithPaddle { false };
 
+	// let's assume no exception is fired: Pong objects will be always created by PongObjectManager
+	const auto& pongObjManager = dynamic_cast<const PongObjectsManager&>(_objectManager);
+
 	// get bounds for both computer and player paddles, and check if ball collided with one of those
-	for (auto x : Game::GetPaddlesBounds())
+	for (auto x : pongObjManager.GetPaddlesBounds())
 	{
 		// if ball collides with paddle bounds it bounces back according to the current paddle motion
 		if (getGlobalBounds().intersects(x))
