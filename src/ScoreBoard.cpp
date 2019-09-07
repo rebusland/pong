@@ -15,7 +15,7 @@ ScoreBoard::ScoreBox::ScoreBox(const ScoreBoard& scoreBoard, const sf::String& n
 	_box.setPosition(position);
 
 	// setup score text
-	_scoreText.setFont(Game::Fonts::arialFont);
+	_scoreText.setFont(utils::for_sfml::fonts::arialFont);
 	_scoreText.setFillColor(sf::Color::Black);
 	_scoreText.setCharacterSize(25);
 	_scoreText.setStyle(sf::Text::Bold);

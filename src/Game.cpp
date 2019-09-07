@@ -12,7 +12,7 @@ void Game::Start()
 		return;
 	}
 
-	if (!LoadFonts()) 
+	if (!utils::for_sfml::fonts::LoadFonts())
 	{
 		LOG("Error while loading text fonts, returning.");
 		return;
@@ -156,8 +156,6 @@ void Game::ShowGameoverPopup()
 
 // static members initialization
 Game::GameState Game::_gameState = GameState::Uninitialized;
-const std::string Game::Fonts::PATH_TO_FONTS = "C:/Users/Rebo/Documents/Fonts/";
-sf::Font Game::Fonts::arialFont;
 sf::RenderWindow Game::_mainWindow;
 ScoreBoard Game::_scoreBoard;
 PongObjectsManager Game::_pongObjectsManager;

@@ -36,22 +36,6 @@ public:
 		return _mainWindow;
 	}
 
-	/**
-	 * True if font loading has been successful, false otherwise
-	 */
-	static bool LoadFonts() 
-	{
-		return Fonts::arialFont.loadFromFile(Fonts::PATH_TO_FONTS + "arial.ttf");
-	}
-
-	// pre-loaded fonts
-	// TODO move in utility "package"
-	static struct Fonts {
-		static sf::Font arialFont;
-
-		static const std::string PATH_TO_FONTS;
-	};
-
 	// window size
 	static constexpr int SCREEN_WIDTH = 800;
 	static constexpr int SCREEN_HEIGHT = 480;
