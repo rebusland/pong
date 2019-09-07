@@ -2,10 +2,6 @@
 #include "inc/PongObjectsManager.h"
 
 #include "inc/Game.h"
-#include "inc/Paddle.h"
-#include "inc/PlayerPaddle.h"
-#include "inc/ComputerPaddle.h"
-#include "inc/Ball.h"
 
 // paddle distance to the upper and lower borders
 static constexpr int PADDLE_VERTICAL_DISTANCE = 60;
@@ -43,34 +39,49 @@ void PongObjectsManager::CreateGameObjects()
 void PongObjectsManager::SetGameObjectsDefaultPosition()
 {
 	// ball default position is at the center of the window
-	dynamic_cast<sf::Transformable*>(Get(BALL_TAG))->setPosition(
+	GetBall()->setPosition(
 		Game::FIELD_WIDTH / 2,
 		Game::FIELD_HEIGHT / 2 - GameBall::BALL_RADIUS / 2
 	);
 
 	// player and computer paddle are at the centered and in opposite sides of the field
-	dynamic_cast<sf::Transformable*>(Get(PLAYER_PADDLE_TAG))->setPosition(
+	GetPlayerPaddle()->setPosition(
 		Game::FIELD_WIDTH / 2 - Paddle::PADDLE_WIDTH / 2,
 		Game::FIELD_HEIGHT - PADDLE_VERTICAL_DISTANCE
 	);
 	
-	dynamic_cast<sf::Transformable*>(Get(COMPUTER_PADDLE_TAG))->setPosition(
+	GetComputerPaddle()->setPosition(
 		Game::FIELD_WIDTH / 2 - Paddle::PADDLE_WIDTH / 2,
 		PADDLE_VERTICAL_DISTANCE
 	);
+}
+
+GameBall* PongObjectsManager::GetBall() const
+{
+	return GetObject<GameBall>(BALL_TAG);
+}
+
+PlayerPaddle* PongObjectsManager::GetPlayerPaddle() const 
+{
+	return GetObject<PlayerPaddle>(PLAYER_PADDLE_TAG);
+}
+
+ComputerPaddle* PongObjectsManager::GetComputerPaddle() const 
+{
+	return GetObject<ComputerPaddle>(COMPUTER_PADDLE_TAG);
 }
 
 std::vector<sf::FloatRect> PongObjectsManager::GetPaddlesBounds() const
 {
 	std::vector<sf::FloatRect> boundsVec;
 
-	Paddle* playerPaddlePtr = dynamic_cast<Paddle*>(Get(PLAYER_PADDLE_TAG));
+	Paddle* playerPaddlePtr = GetPlayerPaddle();
 	if (playerPaddlePtr != nullptr)
 	{
 		boundsVec.push_back(playerPaddlePtr->getGlobalBounds());
 	}
 
-	Paddle* computerPaddlePtr = dynamic_cast<Paddle*>(Get(COMPUTER_PADDLE_TAG));
+	Paddle* computerPaddlePtr = GetComputerPaddle();
 	if (computerPaddlePtr != nullptr)
 	{
 		boundsVec.push_back(computerPaddlePtr->getGlobalBounds());
@@ -81,7 +92,7 @@ std::vector<sf::FloatRect> PongObjectsManager::GetPaddlesBounds() const
 
 sf::Vector2f PongObjectsManager::GetBallPosition() const
 {
-	GameBall* ballPtr = dynamic_cast<GameBall*>(Get(BALL_TAG));
+	GameBall* ballPtr = GetBall();
 	if (ballPtr != nullptr)
 	{
 		return ballPtr->getPosition();

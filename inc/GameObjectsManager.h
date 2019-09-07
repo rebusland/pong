@@ -9,13 +9,10 @@
 class GameObjectsManager
 {
 	public:
-		/**
-		 * Explicitly declare default move operations, since the default dtor was overloaded.
-		 * Copy operations are disabled still.
-		 */
-		GameObjectsManager(GameObjectsManager&&) = default;
-		GameObjectsManager& operator=(GameObjectsManager&&) = default;
-
+		//
+		// Default destructor was overloaded, so automatic generation of copy and move
+		// operations is disabled. We don't bother as we don't need those.
+		//
 		GameObjectsManager() { LOG(__func__) }
 		virtual ~GameObjectsManager();
 
@@ -46,6 +43,20 @@ class GameObjectsManager
 					std::move(gameObj)
 				)
 			);
+		}
+
+		/**
+		 * Generic getter for pointers to game objects
+		 */
+		template<
+			typename T,
+			typename = typename std::enable_if_t<std::is_base_of<GameObject, T>::value>
+		>
+			T* GetObject(const std::string& tag) const
+		{
+			GameObject* objectPtr = Get(tag);
+			assert(objectPtr != nullptr); // assure that game object was retrieved
+			return dynamic_cast<T*>(objectPtr);
 		}
 
 		/**

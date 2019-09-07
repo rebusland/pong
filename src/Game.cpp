@@ -7,11 +7,6 @@
 
 void Game::Start()
 {
-	if (_gameState != GameState::Uninitialized)
-	{
-		return;
-	}
-
 	if (!utils::for_sfml::fonts::LoadFonts())
 	{
 		LOG("Error while loading text fonts, returning.");
@@ -155,7 +150,7 @@ void Game::ShowGameoverPopup()
 }
 
 // static members initialization
-Game::GameState Game::_gameState = GameState::Uninitialized;
+Game::GameState Game::_gameState;
 sf::RenderWindow Game::_mainWindow;
 ScoreBoard Game::_scoreBoard;
 PongObjectsManager Game::_pongObjectsManager;

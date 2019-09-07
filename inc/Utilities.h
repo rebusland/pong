@@ -26,9 +26,9 @@ namespace utils {
 			// in the target project
 			// WARNING arialFont is not well encapsulated, furthermore there is no state
 			// allowing to detect if it has been loaded.
-			extern sf::Font arialFont; 
+			extern sf::Font arialFont;
 
-			static constexpr const char* PATH_TO_FONTS = "C:/Users/Rebo/Documents/Fonts/";
+			const std::string PATH_TO_FONTS = "C:/Users/Rebo/Documents/Fonts/";
 
 			/**
 			 * True if font loading has been successful, false otherwise.
@@ -36,7 +36,7 @@ namespace utils {
 			 */
 			static bool LoadFonts()
 			{
-				return arialFont.loadFromFile(*PATH_TO_FONTS + "arial.ttf");
+				return arialFont.loadFromFile(PATH_TO_FONTS + "arial.ttf");
 			}
 		};
 

@@ -23,8 +23,7 @@
 #include "ComputerPaddle.h"
 
  // path to default images for Sprite objects
-// #define  BALL_DEFAULT_IMAGE_PATH "images/ball.png"
-#define  BALL_DEFAULT_IMAGE_PATH "images/tennis-ball-icon-cropped.png"
+#define BALL_DEFAULT_IMAGE_PATH "images/tennis-ball-icon-cropped.png"
 
 class Game
 {
@@ -56,20 +55,19 @@ public:
 	static constexpr float WIN_UPDATE_TIME = (float)1 / 30;
 
 private:
+	enum class GameState {
+		ShowingSplash,
+		Paused,
+		ShowingMenu,
+		Playing,
+		Exiting
+	};
+
 	static bool IsExiting()
 	{
 		return _gameState == GameState::Exiting;
 	}
 	static void GameLoop();
-
-	enum class GameState {
-		Uninitialized, 
-		ShowingSplash, 
-		Paused,
-		ShowingMenu, 
-		Playing, 
-		Exiting
-	};
 
 	static void ShowSplashScreen();
 	static void ShowMenu();
