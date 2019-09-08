@@ -1,12 +1,18 @@
 #include "pch.h"
 #include "inc/SplashScreen.h"
 
-void SplashScreen::Show(sf::RenderWindow& renderWindow)
+#define INTRO_IMAGE "images/PongIntroImg.png"
+
+GameMessage SplashScreen::Show(sf::RenderWindow& renderWindow)
 {
 	sf::Texture image;
-	if (image.loadFromFile("images/PongIntroImg.png") != true)
+	if (image.loadFromFile(INTRO_IMAGE) != true)
 	{
-		return;
+		return GameMessage(
+			GameMessage::ERROR,
+			"Impossible to laod Intro image: " + std::string(INTRO_IMAGE),
+			true
+		);
 	}
 
 	sf::Sprite sprite(image);
@@ -18,16 +24,15 @@ void SplashScreen::Show(sf::RenderWindow& renderWindow)
 
 	while (true) {
 		while (renderWindow.pollEvent(event))
-
 		{
 			if (event.type == sf::Event::EventType::KeyPressed
 				|| event.type == sf::Event::EventType::MouseButtonPressed
 				|| event.type == sf::Event::EventType::Closed)
 			{
-				return;
+				return GameMessage::EmptySuccessMessage();
 			}
 		}
 
-		std::this_thread::sleep_for(std::chrono::milliseconds(60));
+		std::this_thread::sleep_for(std::chrono::milliseconds(100));
 	}
 }

@@ -4,7 +4,6 @@
  *  - realize a more realistic computer paddle
  *  - provide difficulty level selection (tuning ball speed and computer paddle reactiveness)
  *	- command shortcut to momentarily pause the game
- *  - add a game options section allowing to select difficulty level, name, ball speed..
  *	- log4j as logging framework?
  *
  *	- Adapt comments format to fit Deoxygen standards (?)
@@ -22,7 +21,7 @@
 #include "PlayerPaddle.h"
 #include "ComputerPaddle.h"
 
- // path to default images for Sprite objects
+#define PAUSED_GAME_STRING "GAME PAUSED"
 #define BALL_DEFAULT_IMAGE_PATH "images/tennis-ball-icon-cropped.png"
 
 class Game
@@ -56,7 +55,6 @@ public:
 
 private:
 	enum class GameState {
-		ShowingSplash,
 		Paused,
 		ShowingMenu,
 		Playing,
@@ -69,17 +67,27 @@ private:
 	}
 	static void GameLoop();
 
-	static void ShowSplashScreen();
+	static GameMessage TrySetupGameInterface();
+
+	/**
+	 * Temporarily pause the game: freeze the window
+	 */
+	static void PauseGame();
 	static void ShowMenu();
 
 	// TODO: NB each time this method is called a new gameover popup is created: ineffient;
 	// better to create the popup once and then reuse it.
 	static void ShowGameoverPopup();
 
+	// reset game objects position and scores, setting the game state to "Playing"
+	static void ResetGame();
+
 	static GameState _gameState;
 
 	static sf::RenderWindow _mainWindow;
 	static ScoreBoard _scoreBoard;
+
+	static sf::Text _pausedGameTextBox;
 
 	static PongObjectsManager _pongObjectsManager;
 	static std::unique_ptr<Referee> _referee;

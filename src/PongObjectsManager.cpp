@@ -34,6 +34,8 @@ void PongObjectsManager::CreateGameObjects()
 	CreateGameObject<PlayerPaddle>(PLAYER_PADDLE_TAG);
 	CreateGameObject<ComputerPaddle>(COMPUTER_PADDLE_TAG);
 	CreateGameObject<GameBall>(BALL_TAG);
+
+	SetGameObjectsDefaultPosition();
 }
 
 void PongObjectsManager::SetGameObjectsDefaultPosition()

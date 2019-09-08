@@ -7,19 +7,18 @@
 
 void Game::Start()
 {
-	if (!utils::for_sfml::fonts::LoadFonts())
+	GameMessage setupInterfaceMsg = TrySetupGameInterface();
+
+	if (setupInterfaceMsg.IsError()) 
 	{
-		LOG("Error while loading text fonts, returning.");
+		LOG(setupInterfaceMsg.GetMessageString())
+		// TODO DisplayErrorMessage()
 		return;
 	}
-
-	_mainWindow.create(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, 16), "Pong!");
-	_mainWindow.setFramerateLimit(30); // limit frame rate
+	_gameState = GameState::ShowingMenu;
 	
+	// create game objects in advance, they will survive for the whole game lifespan.
 	_pongObjectsManager.CreateGameObjects();
-	_pongObjectsManager.SetGameObjectsDefaultPosition();
-
-	_gameState = GameState::ShowingSplash;
 
 	// here is where the game flow logic and event handling is encapsulated
 	while (!IsExiting())
@@ -29,6 +28,34 @@ void Game::Start()
 	}
 
 	_mainWindow.close();
+}
+
+GameMessage Game::TrySetupGameInterface()
+{
+	if (!utils::for_sfml::fonts::LoadFonts())
+	{
+		return GameMessage(GameMessage::ERROR, "Error while loading text fonts", true);
+	}
+
+	// setup paused game text box
+	_pausedGameTextBox.setFont(utils::for_sfml::fonts::arialFont);
+	_pausedGameTextBox.setFillColor(sf::Color::White);
+	_pausedGameTextBox.setCharacterSize(70);
+	_pausedGameTextBox.setStyle(sf::Text::Bold);
+	_pausedGameTextBox.setString(PAUSED_GAME_STRING);
+	
+	_pausedGameTextBox.setPosition(
+		sf::Vector2f(
+			(Game::FIELD_WIDTH - _pausedGameTextBox.getLocalBounds().width) / 2,
+			(Game::FIELD_HEIGHT - _pausedGameTextBox.getLocalBounds().height) / 2
+		)
+	);
+	
+	_mainWindow.create(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, 16), "Pong!");
+	_mainWindow.setFramerateLimit(30); // limit frame rate
+
+	SplashScreen splashScreen;
+	return splashScreen.Show(_mainWindow);
 }
 
 void Game::GameLoop()
@@ -42,19 +69,43 @@ void Game::GameLoop()
 			_gameState = GameState::Exiting;
 			return;
 		}
+
+		// spacebar can be used to pause the game when playing
+		if (_gameState == GameState::Playing &&
+			currentEvent.type == sf::Event::KeyPressed &&
+			currentEvent.key.code == sf::Keyboard::Space)
+		{
+			LOG("Game paused")
+			_gameState = GameState::Paused;
+		}
+		else if (_gameState == GameState::Paused && 
+			currentEvent.type == sf::Event::KeyPressed &&
+			currentEvent.key.code == sf::Keyboard::Space)
+		{
+			LOG("Resume game")
+			_gameState = GameState::Playing;
+		}
+
+		// TODO poll an event allowing the user to return to the game menu (for changing options
+		// and/or restarting the game.
 	}
 
 	switch (_gameState)
 	{
-		case GameState::ShowingSplash:
-			ShowSplashScreen();
-			break;
-
 		case GameState::ShowingMenu:
+		{
 			ShowMenu();
 			break;
+		}
 
-		case GameState::Playing:
+		case GameState::Paused:
+		{
+			PauseGame();
+			break;
+		}
+
+		case GameState::Playing: 
+		{
 			_mainWindow.clear(sf::Color(0, 0, 0));
 
 			_scoreBoard.Draw(_mainWindow); // draw scoreboard on main window
@@ -62,17 +113,17 @@ void Game::GameLoop()
 			GameMessage resultMessage = _pongObjectsManager.UpdateAll();
 			_pongObjectsManager.DrawAll(_mainWindow);
 			_mainWindow.display();
-		
-			if (resultMessage.IsError()) 
+
+			if (resultMessage.IsError())
 			{
 				LOG("Error after game update: " << resultMessage.GetMessageString())
-				// TODO 
-				// DisplayErrorMessage();
+					// TODO 
+					// DisplayErrorMessage();
 			}
-			else if (resultMessage.IsBallMiss()) 
+			else if (resultMessage.IsBallMiss())
 			{
 				LOG("Point scored: " << resultMessage.GetMessageString())
-				_referee->InterpretBallMessage(resultMessage);
+					_referee->InterpretBallMessage(resultMessage);
 				result_t currentResult = _referee->GetCurrentResult();
 
 				_scoreBoard.UpdateScores(currentResult);
@@ -80,7 +131,7 @@ void Game::GameLoop()
 				_mainWindow.display(); // display to update the score on the window
 
 				// computer wins: gameover
-				if (currentResult.computerScore == result_t::MAX_SCORE) 
+				if (currentResult.computerScore == result_t::MAX_SCORE)
 				{
 					ShowGameoverPopup();
 				}
@@ -90,7 +141,7 @@ void Game::GameLoop()
 					// TODO go to the next level?
 				}
 				// simply keep up with the match
-				else 
+				else
 				{
 					// wait for one second and restart
 					std::this_thread::sleep_for(std::chrono::seconds(1));
@@ -101,14 +152,26 @@ void Game::GameLoop()
 			}
 
 			break;
+		}
+
+		default:
+		{
+			LOG("WARNING: unhandled game state")
+			break;
+		}
 	}
 }
 
-void Game::ShowSplashScreen()
+void Game::PauseGame() 
 {
-	SplashScreen splashScreen;
-	splashScreen.Show(_mainWindow);
-	_gameState = GameState::ShowingMenu;
+	_mainWindow.clear(sf::Color(0, 0, 0));
+
+	// freeze on the window the last frame of the game
+	_mainWindow.draw(_pausedGameTextBox);
+	_scoreBoard.Draw(_mainWindow); // draw scoreboard on main window
+	_pongObjectsManager.DrawAll(_mainWindow);
+
+	_mainWindow.display();
 }
 
 void Game::ShowMenu()
@@ -121,7 +184,7 @@ void Game::ShowMenu()
 			_gameState = GameState::Exiting;
 			break;
 		case MainMenu::Play:
-			_gameState = GameState::Playing;
+			ResetGame();
 			break;
 		default:
 			break;
@@ -138,20 +201,25 @@ void Game::ShowGameoverPopup()
 			_gameState = GameState::Exiting;
 			break;
 		case GameoverPopup::Retry:
-			// reset game objects position and restore playing window
-			_pongObjectsManager.SetGameObjectsDefaultPosition();
-			_scoreBoard.Clear();
-			_referee->ResetScore();
-			_gameState = GameState::Playing;
+			ResetGame();
 			break;
 		default:
 			break;
 	}
 }
 
+void Game::ResetGame() 
+{
+	_pongObjectsManager.SetGameObjectsDefaultPosition();
+	_scoreBoard.Clear();
+	_referee->ResetScore();
+	_gameState = GameState::Playing;
+}
+
 // static members initialization
 Game::GameState Game::_gameState;
 sf::RenderWindow Game::_mainWindow;
 ScoreBoard Game::_scoreBoard;
+sf::Text Game::_pausedGameTextBox;
 PongObjectsManager Game::_pongObjectsManager;
 std::unique_ptr<Referee> Game::_referee = std::make_unique<Referee>();

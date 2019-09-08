@@ -1,7 +1,8 @@
 #pragma once
+#include "GameMessage.h"
 
 class SplashScreen
 {
 public:
-	void Show(sf::RenderWindow& window);
+	GameMessage Show(sf::RenderWindow& window);
 };
