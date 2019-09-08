@@ -74,30 +74,13 @@ ComputerPaddle* PongObjectsManager::GetComputerPaddle() const
 std::vector<sf::FloatRect> PongObjectsManager::GetPaddlesBounds() const
 {
 	std::vector<sf::FloatRect> boundsVec;
-
-	Paddle* playerPaddlePtr = GetPlayerPaddle();
-	if (playerPaddlePtr != nullptr)
-	{
-		boundsVec.push_back(playerPaddlePtr->getGlobalBounds());
-	}
-
-	Paddle* computerPaddlePtr = GetComputerPaddle();
-	if (computerPaddlePtr != nullptr)
-	{
-		boundsVec.push_back(computerPaddlePtr->getGlobalBounds());
-	}
+	boundsVec.push_back(GetPlayerPaddle()->getGlobalBounds());
+	boundsVec.push_back(GetComputerPaddle()->getGlobalBounds());
 
 	return boundsVec;
 }
 
 sf::Vector2f PongObjectsManager::GetBallPosition() const
 {
-	GameBall* ballPtr = GetBall();
-	if (ballPtr != nullptr)
-	{
-		return ballPtr->getPosition();
-	}
-
-	// if no ball is found return empty vector
-	return sf::Vector2f();
+	return GetBall()->getPosition();
 }

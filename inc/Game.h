@@ -72,8 +72,8 @@ private:
 	static void ShowSplashScreen();
 	static void ShowMenu();
 
-	// TODO: NB each time this method is called a new gameover popup is created: ineffient; better to create the
-	// popup once and then reuse it.
+	// TODO: NB each time this method is called a new gameover popup is created: ineffient;
+	// better to create the popup once and then reuse it.
 	static void ShowGameoverPopup();
 
 	static GameState _gameState;

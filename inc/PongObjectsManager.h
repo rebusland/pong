@@ -12,9 +12,7 @@ class PongObjectsManager : public GameObjectsManager
 		~PongObjectsManager() { LOG(__func__) };
 
 		void CreateGameObjects() override;
-
 		void SetGameObjectsDefaultPosition() override;
-
 		GameMessage UpdateAll() override;
 
 		GameBall* GetBall() const;
@@ -22,12 +20,9 @@ class PongObjectsManager : public GameObjectsManager
 		ComputerPaddle* GetComputerPaddle() const;
 
 		/**
-		 * Used to retrieve all the visible objects bounds: useful in checking whether collision between objects occurs.
+		 * Used to check whether collision between ball and paddles.
 		 */
 		std::vector<sf::FloatRect> GetPaddlesBounds() const;
 
-		/**
-		 * Getter for ball position.
-		 */
 		sf::Vector2f GetBallPosition() const;
 };

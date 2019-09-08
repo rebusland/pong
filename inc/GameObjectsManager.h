@@ -46,7 +46,8 @@ class GameObjectsManager
 		}
 
 		/**
-		 * Generic getter for pointers to game objects
+		 * Generic getter for pointers to game objects.
+		 * an assert assures that the returned pointer is not nullptr.
 		 */
 		template<
 			typename T,
@@ -60,8 +61,8 @@ class GameObjectsManager
 		}
 
 		/**
-		 * Remove an object tagged by objTag. It removes it
-		 * return bool: whether the element was found and successfully removed from the _gameObjects map
+		 * return bool:
+		 *	whether the element was found and successfully removed from the _gameObjects map
 		 */
 		virtual bool RemoveGameObject(const std::string& objTag);
 
@@ -74,7 +75,6 @@ class GameObjectsManager
 		virtual void CreateGameObjects() = 0;
 
 	protected:
-		// TODO implement specific getters for game objects (ball, playerPaddle and computerPaddle)
 		GameObject* Get(const std::string& name) const;
 
 	protected:
