@@ -12,12 +12,17 @@ GameBall::GameBall(const GameObjectsManager& manager) :
 	// origin for the ball will be its center (by default it is the top left corner of the enclosing rectangle)
 	setOrigin(BALL_RADIUS / 2, BALL_RADIUS / 2);
 
+	SetupRandomStartingAngle();
+}
+
+void GameBall::SetupRandomStartingAngle()
+{
 	// initialize random seed:
 	srand(time(NULL));
 
 	// random angle at which the ball is first thrown (in the intervals [45, 135] and [225, 315] degrees) 
-	_angle = 45 + rand() % 90;
-	_angle = (rand() % 2 == 0) ? _angle : 180 + _angle;
+	int rnd = rand();
+	_angle = 45 + rnd % 90 + (rnd % 2) * 180;
 }
 
 GameMessage GameBall::Update()

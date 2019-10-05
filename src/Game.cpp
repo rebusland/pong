@@ -147,7 +147,6 @@ void Game::GameLoop()
 					std::this_thread::sleep_for(std::chrono::seconds(1));
 					// TODO countdown to restart
 					_pongObjectsManager.SetGameObjectsDefaultPosition();
-					// TODO set a new randon angle for the ball
 				}
 			}
 

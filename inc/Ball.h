@@ -11,6 +11,8 @@ class GameBall :
 		GameBall(const GameObjectsManager& manager);
 		virtual ~GameBall() { LOG(__func__) }
 
+		void SetupRandomStartingAngle();
+
 		GameMessage Update() override;
 		void Draw(sf::RenderWindow& rw) override 
 		{ 

@@ -3,7 +3,6 @@
  *  - implement a warning popup to notify program errors
  *  - realize a more realistic computer paddle
  *  - provide difficulty level selection (tuning ball speed and computer paddle reactiveness)
- *	- command shortcut to momentarily pause the game
  *	- log4j as logging framework?
  *
  *	- Adapt comments format to fit Deoxygen standards (?)
