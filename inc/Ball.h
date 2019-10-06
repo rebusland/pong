@@ -28,10 +28,10 @@ class GameBall :
 	
 	public:
 		// ball velocity modulus (assumed constant among the shots from the two players)
-		static constexpr float BALL_SPEED = 500;
+		static constexpr float BALL_SPEED = 600;
 
 		// ball radius in pixels, used when a resize of a ball image for the sprite is required
-		static constexpr float BALL_RADIUS = 25;
+		static constexpr float BALL_RADIUS = 20;
 
 		// angle spread allowed for the ball after a paddle hit
 		static constexpr float BALL_ANGLE_SPREAD = 45;
