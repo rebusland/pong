@@ -217,6 +217,7 @@ void Game::ResetGame()
 
 // static members initialization
 Game::GameState Game::_gameState;
+Game::DifficultyLevel Game::_difficultyLevel = Game::DifficultyLevel::Easy;
 sf::RenderWindow Game::_mainWindow;
 ScoreBoard Game::_scoreBoard;
 sf::Text Game::_pausedGameTextBox;

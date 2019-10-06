@@ -7,25 +7,47 @@ GameMessage ComputerPaddle::Update()
 	// let's assume no exception is caugth: Pong objects will be always created by PongObjectManager
 	const auto& pongObjManager = dynamic_cast<const PongObjectsManager&>(_objectManager);
 
-	// get ball position, according to difficulty level the computer paddle should be able to keep up with ball movements
-	float currentBallPositionX = pongObjManager.GetBallPosition().x;
+	float currentBallX = pongObjManager.GetBallPosition().x;
 
-	float speed = 0.0;
-	if (getGlobalBounds().left + PADDLE_WIDTH < currentBallPositionX)
-	{
-		speed = PADDLE_SPEED;
-	}
-	else if (getGlobalBounds().left > currentBallPositionX + GameBall::BALL_RADIUS)
-	{
-		speed = -PADDLE_SPEED;
-	}
-		
-	// increment current position by dx = v * dt
-	MovePaddle(speed * Game::WIN_UPDATE_TIME);
+	/* 
+	 * TODO
+	 * Trying to "tune" in some way the computer mistakes rate brings to a very interesting question:
+	 * what causes an actual human player to miss? 
+	 * Is the cause the same at all ball speeds and incoming angles?
+	 * How can we translate a simple model of human error in code for the computer paddle?
+	 *
+	 * For the moment a simple heuristic has been implemented:
+	 * computer paddle is allowed to have "oversights" sometimes; in such cases the paddle
+	 * is not moved. The rate of oversights is related to _responsiveness value, which is 
+	 * compared against random numbers in the interval [0, 100]; if the rand number is greater than
+	 * responsiveness an oversight occurs.
+	 * TODO improve the computer "fallability" process to make it more similar to a human user one.
+	 */
+	float speed = 0.f;
 
-	// in any case, enforce a valid paddle position (bounded to game field)
+	bool isOversight = (_responsiveness != Responsiveness::Perfect  && rand() % 100 > _responsiveness);
+
+	if (isOversight) 
+	{
+		LOG("Computer oversight!"); // TODO remove
+	}
+	else
+	{
+	
+		if (getGlobalBounds().left + PADDLE_WIDTH < currentBallX)
+		{
+			speed = PADDLE_SPEED;
+		}
+		else if (getGlobalBounds().left > currentBallX + GameBall::BALL_RADIUS)
+		{
+			speed = -PADDLE_SPEED;
+		}
+
+		MovePaddle(speed * Game::WIN_UPDATE_TIME); // dx = v * dt
+	}
+
+	// in any case, enforce a valid paddle position
 	EnforceValidPosition();
 
-	// if no error is encountered then an empty success message is returned
 	return GameMessage::EmptySuccessMessage();
 }
