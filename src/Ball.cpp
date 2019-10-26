@@ -27,27 +27,27 @@ void GameBall::SetupRandomStartingAngle()
 
 GameMessage GameBall::Update()
 {
-	double startingPositionY = getPosition().y;
-
-	// if the bottom border of the window is reached than the player on that side (user for the moment) lose the game
-	// NB the y-coordinate is decreasing in the window object, i.e. y=0 corresponds to the top of the window,
-	// while y=WIN_HEIGHT corresponds to the bottom
-	if (startingPositionY >= Game::FIELD_HEIGHT - getGlobalBounds().height)
+	// if the BOTTOM border of the window is reached (NB y coordinate is decreasing) than the player on lose the game
+	if (getPosition().y >= Game::FIELD_HEIGHT - getGlobalBounds().height)
 	{
 		return GameMessage(GameMessage::message_type_t::PLAYER_MISS, "player paddle missed the ball!", false);
 	}
-	// top border of the window reached by the ball ==> computer miss
-	if (startingPositionY <= 0)
+	// TOP border of the window reached by the ball ==> computer miss
+	if (getPosition().y <= 0)
 	{
 		return GameMessage(GameMessage::message_type_t::COMPUTER_MISS, "Computer paddle missed the ball!", false);
 	}
 
-	// TODO improve logic of collision detection between paddle and ball
-	// enforce ball's y position so that it does not penetrate into the paddle object (?)
-	bool collisionWithPaddle { false };
+	// Update position
+	float dx = BALL_SPEED * cos(_angle * PI / 180) * Game::WIN_UPDATE_TIME; // dx = v * cos(angle) * dt
+	float dy = BALL_SPEED * sin(_angle * PI / 180) * Game::WIN_UPDATE_TIME; // dy = v * sin(angle) * dt
 
-	// let's assume no exception is fired: Pong objects will be always created by PongObjectManager
-	const auto& pongObjManager = dynamic_cast<const PongObjectsManager&>(_objectManager);
+	Sprite::move(dx, dy);
+
+	/*
+	 * Check for collision with paddles to compute the new angle for ball's motion
+	 */
+	const auto& pongObjManager = static_cast<const PongObjectsManager&>(_objectManager);
 
 	// get bounds for both computer and player paddles, and check if ball collided with one of those
 	for (auto x : pongObjManager.GetPaddlesBounds())
@@ -56,24 +56,37 @@ GameMessage GameBall::Update()
 		if (getGlobalBounds().intersects(x))
 		{
 			LOG("Collision!");
-
-			if (!_hasCollidedWithPaddle)
-				_angle = ComputeBallPaddleAngle(_angle, x);
-
-			collisionWithPaddle = true;
+			_angle = ComputeBallPaddleAngle(_angle, x);
 		}
 	}
 
-	_hasCollidedWithPaddle = collisionWithPaddle;
+	/*
+	 * In any case, enforce ball to be in the field space, handling possible ball reflection
+	 */
+	EnforceValidPosition();
 
-	float dx = BALL_SPEED * cos(_angle * PI / 180) * Game::WIN_UPDATE_TIME; // dx = v * cos(angle) * dt
-	float dy = BALL_SPEED * sin(_angle * PI / 180) * Game::WIN_UPDATE_TIME; // dy = v * sin(angle) * dt
+	// if no problem occured an empty success message is sent
+	return GameMessage::EmptySuccessMessage();
+}
 
-	Sprite::move(dx, dy);
+void GameBall::EnforceValidPosition()
+{
+	const auto& pongObjManager = static_cast<const PongObjectsManager&>(_objectManager);
 
-	// in any case, enforce ball to be in the field space: 
-	// floor ball left side to zero and cap its right side to FIELD_WIDTH.
-	// in case of collision with a border, reflect ball's angle.
+	// do not penetrate in paddle if now ball is within computer or player paddles borders
+	auto computerBounds = pongObjManager.GetComputerPaddleBounds();
+	auto playerBounds = pongObjManager.GetPlayerPaddleBounds();
+
+	if (getGlobalBounds().intersects(computerBounds))
+	{
+		setPosition(getPosition().x, computerBounds.top + Paddle::PADDLE_HEIGHT);
+	}
+	else if (getGlobalBounds().intersects(playerBounds))
+	{
+		setPosition(getPosition().x, playerBounds.top - BALL_RADIUS);
+	}
+
+	// enforce field position
 	if (getGlobalBounds().left <= 0)
 	{
 		setPosition(0, getPosition().y);
@@ -84,9 +97,6 @@ GameMessage GameBall::Update()
 		setPosition(Game::FIELD_WIDTH - getGlobalBounds().width, getPosition().y);
 		_angle = 180 - _angle;
 	}
-
-	// if no problem occured an empty success message is sent
-	return GameMessage::EmptySuccessMessage();
 }
 
 double GameBall::ComputeBallPaddleAngle(double upcomingAngle, const sf::FloatRect& paddleBounds) const

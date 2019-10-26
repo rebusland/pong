@@ -28,9 +28,6 @@ class Paddle :
 			RectangleShape::move(dx, 0); // dy = 0 
 		}
 
-		// paddle horizontal position is bounded within field borders
-		void EnforceValidPosition();
-
 	public:
 		// the fixed speed at which a paddle can move (right or left)
 		static constexpr float PADDLE_SPEED = 600;
@@ -40,6 +37,9 @@ class Paddle :
 		static constexpr float PADDLE_HEIGHT = 10;
 	
 	protected:
+		// paddle horizontal position is bounded within field borders
+		virtual void EnforceValidPosition() override;
+
 		bool _isLeftBorderTouched;
 		bool _isRightBorderTouched;
 };

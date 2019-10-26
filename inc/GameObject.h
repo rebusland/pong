@@ -29,6 +29,8 @@ class GameObject
 		virtual GameMessage Update() = 0;
 
 	protected:
+		virtual void EnforceValidPosition() = 0;
+
 		// const reference to the manager the object is spawned from
 		const GameObjectsManager& _objectManager;
 };

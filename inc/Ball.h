@@ -36,12 +36,18 @@ class GameBall :
 		// angle spread allowed for the ball after a paddle hit
 		static constexpr float BALL_ANGLE_SPREAD = 45;
 
+	protected:
+		/**
+		 * Floor ball left side to zero and cap its right side to FIELD_WIDTH.
+		 * in case of collision with a border, reflect ball's angle.
+		 * Also, ball must not penetrate inside paddles.
+		 */
+		virtual void EnforceValidPosition() override;
+
 	private:
 		/*
 		 * Current angle at which the ball is moving.
 		 * In case a paddle or the windows border are hit the angle is reflected
 		 */
 		double _angle;
-
-		bool _hasCollidedWithPaddle = false;
 };
