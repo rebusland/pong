@@ -13,6 +13,64 @@
 
 namespace utils {
 
+	const float MIN_FLOAT_DIFFERENCE = 1.0e-8f;
+
+	// TODO templetize arithmetic methods below
+
+	/*
+	 * Arithmetical and String utilities
+	 */
+
+	static bool AreEquals(float a, float b)
+	{
+		return std::abs(a - b) <= MIN_FLOAT_DIFFERENCE;
+	}
+
+	static bool IsGreaterEqualThan(float a, float b)
+	{
+		return std::abs(a - b) >= MIN_FLOAT_DIFFERENCE;
+	}
+
+	static bool IsLessEqualThan(float a, float b)
+	{
+		return std::abs(a - b) <= MIN_FLOAT_DIFFERENCE;
+	}
+
+	static bool IsStrictlyGreaterThan(float a, float b)
+	{
+		return std::abs(a - b) > MIN_FLOAT_DIFFERENCE;
+	}
+
+	static bool IsStrictlyLessThan(float a, float b)
+	{
+		return std::abs(a - b) < MIN_FLOAT_DIFFERENCE;
+	}
+
+	static bool IsEqualToZero(float a)
+	{
+		return AreEquals(a, 0.0f);
+	}
+
+	static bool IsGreaterEqualThanZero(float a)
+	{
+		return IsGreaterEqualThan(a, 0.0f);
+	}
+
+	static bool IsLessEqualThanZero(float a)
+	{
+		IsLessEqualThan(a, 0.0f);
+	}
+
+	static bool IsStrictlyGreaterThanZero(float a)
+	{
+		IsStrictlyGreaterThan(a, 0.0f);
+	}
+
+	static bool IsStrictlyLessThanZero(float a)
+	{
+		IsStrictlyLessThan(a, 0.0f);
+	}
+
 	//
 	// UTILITIES FOR SFML PROJECTS
 	//
