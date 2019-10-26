@@ -13,20 +13,26 @@ static const std::string COMPUTER_PADDLE_TAG = "ComputerPaddle";
 
 GameMessage PongObjectsManager::UpdateAll()
 {
-	GameMessage messageFromObjectsUpdate = GameMessage::EmptySuccessMessage();
-	GameMessage currentMessage;
-
-	// update object state and if an error is found the message is returned by the objects manager
-	for (const auto& pair : _gameObjects)
+	// we ensure that paddles are updated BEFORE ball
+	GameMessage playerPaddleMsg = GetPlayerPaddle()->Update();
+	if (playerPaddleMsg.IsError())
 	{
-		currentMessage = pair.second->Update();
-		if (currentMessage.IsBallMiss() || currentMessage.IsError())
-		{
-			messageFromObjectsUpdate = currentMessage;
-		}
+		return playerPaddleMsg;
 	}
 
-	return messageFromObjectsUpdate;
+	GameMessage computerPaddleMsg = GetComputerPaddle()->Update();
+	if (computerPaddleMsg.IsError()) 
+	{
+		return computerPaddleMsg;
+	}
+
+	GameMessage ballMsg = GetBall()->Update();
+	if (ballMsg.IsError() || ballMsg.IsBallMiss())
+	{
+		return ballMsg;
+	}
+
+	return GameMessage::EmptySuccessMessage();
 }
 
 void PongObjectsManager::CreateGameObjects()
@@ -82,6 +88,16 @@ std::vector<sf::FloatRect> PongObjectsManager::GetPaddlesBounds() const
 	boundsVec.push_back(GetComputerPaddle()->getGlobalBounds());
 
 	return boundsVec;
+}
+
+sf::FloatRect PongObjectsManager::GetComputerPaddleBounds() const 
+{
+	return GetComputerPaddle()->getGlobalBounds();
+}
+
+sf::FloatRect PongObjectsManager::GetPlayerPaddleBounds() const 
+{
+	return GetPlayerPaddle()->getGlobalBounds();
 }
 
 sf::Vector2f PongObjectsManager::GetBallPosition() const

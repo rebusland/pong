@@ -24,5 +24,8 @@ class PongObjectsManager : public GameObjectsManager
 		 */
 		std::vector<sf::FloatRect> GetPaddlesBounds() const;
 
+		sf::FloatRect GetComputerPaddleBounds() const;
+		sf::FloatRect GetPlayerPaddleBounds() const;
+
 		sf::Vector2f GetBallPosition() const;
 };
