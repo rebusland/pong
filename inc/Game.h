@@ -20,6 +20,7 @@
 
 #pragma once
 #include "ScoreBoard.h"
+#include "EndSetPopup.h"
 #include "Referee.h"
 #include "PongObjectsManager.h"
 #include "Ball.h"
@@ -73,10 +74,6 @@ private:
 		Exiting
 	};
 
-	static bool IsExiting()
-	{
-		return _gameState == GameState::Exiting;
-	}
 	static void GameLoop();
 
 	static GameMessage TrySetupGameInterface();
@@ -87,9 +84,11 @@ private:
 	static void PauseGame();
 	static void ShowMenu();
 
-	// TODO: NB each time this method is called a new gameover popup is created: ineffient;
-	// better to create the popup once and then reuse it.
-	static void ShowGameoverPopup();
+	/**
+	 * Displays the popup as the set is over. This can be either a win or gameover screen,
+	 * depending on the provided PopupType
+	 */
+	static void ShowEndSetPopup(const EndSetPopup::PopupType&);
 
 	static void SetDifficutlyLevel(const DifficultyLevel& diffLevel)
 	{

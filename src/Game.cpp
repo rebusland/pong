@@ -2,7 +2,7 @@
 #include "inc/Game.h"
 #include "inc/MainMenu.h"
 #include "inc/SplashScreen.h"
-#include "inc/GameoverPopup.h"
+#include "inc/EndSetPopup.h"
 #include "inc/Utilities.h"
 
 void Game::Start()
@@ -21,7 +21,7 @@ void Game::Start()
 	_pongObjectsManager.CreateGameObjects();
 
 	// here is where the game flow logic and event handling is encapsulated
-	while (!IsExiting())
+	while (_gameState != GameState::Exiting)
 	{
 		GameLoop();
 		std::this_thread::sleep_for(std::chrono::milliseconds(30));
@@ -133,12 +133,13 @@ void Game::GameLoop()
 				// computer wins: gameover
 				if (currentResult.computerScore == result_t::MAX_SCORE)
 				{
-					ShowGameoverPopup();
+					ShowEndSetPopup(EndSetPopup::PopupType::GameOver);
 				}
 				// player wins!!
 				else if (currentResult.playerScore == result_t::MAX_SCORE)
 				{
-					// TODO go to the next level?
+					ShowEndSetPopup(EndSetPopup::PopupType::Success);
+					// TODO go then to the next level?
 				}
 				// simply keep up with the match
 				else
@@ -190,20 +191,20 @@ void Game::ShowMenu()
 	}
 }
 
-void Game::ShowGameoverPopup()
+void Game::ShowEndSetPopup(const EndSetPopup::PopupType& popupType) 
 {
-	GameoverPopup gameoverPopup;
-	GameoverPopup::GameoverPopupResult result = gameoverPopup.Show();
+	EndSetPopup endSetPopup(popupType);
+	EndSetPopup::UserDecisionAfterEndSet result = endSetPopup.Show();
 	switch (result)
 	{
-		case GameoverPopup::ExitGame:
-			_gameState = GameState::Exiting;
-			break;
-		case GameoverPopup::Retry:
-			ResetGame();
-			break;
-		default:
-			break;
+	case EndSetPopup::UserDecisionAfterEndSet::ExitGame:
+		_gameState = GameState::Exiting;
+		break;
+	case EndSetPopup::UserDecisionAfterEndSet::Retry:
+		ResetGame();
+		break;
+	default:
+		break;
 	}
 }
 
