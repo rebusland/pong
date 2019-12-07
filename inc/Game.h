@@ -7,8 +7,8 @@
  *	  possibly at a lower speed until it reaches the paddle so that is more feasible for the opponent to
  *	  to hit the ball.
  *	- fix the annoying bug of ball occasionally bouncing back and forth when touching the paddle border.
- *	- add tags to scoreboard with the right position in the window.
- *	- check proper score update for player. Set player win when the max score is reached.
+ *	- write a general utility methods to center texts inside a box, for arbitrary lenght based on character size.
+ *	  In fact, currently the player name inside the score box is centered by hard-coding values.
  *
  *	- log4j as logging framework?
  *	- Adapt comments format to fit Deoxygen standards (?)
@@ -29,6 +29,11 @@
 
 #define PAUSED_GAME_STRING "GAME PAUSED"
 #define BALL_DEFAULT_IMAGE_PATH "images/tennis-ball-icon-cropped.png"
+#define DEF_COMPUTER_NAME "HAL"
+
+// TODO let the user choose its gaming name
+#define DEF_PLAYER_NAME "USER"
+
 
 class Game
 {

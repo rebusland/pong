@@ -30,8 +30,9 @@ private:
 		{
 			_scoreText.setString(std::to_string(updatedScore));
 		}
-		const sf::RectangleShape& GetBox() { return _box; };
-		const sf::Text& GetScoreText() { return _scoreText; };
+		const sf::RectangleShape& GetBox() const { return _box; };
+		const sf::Text& GetScoreText() const { return _scoreText; };
+		const sf::Text& GetPlayerNameText() const { return _playerNameText;  };
 
 		// reference to the ScoreBoard containing class
 		const ScoreBoard& _scoreBoard;
@@ -42,8 +43,8 @@ private:
 		// the text for the score
 		sf::Text _scoreText;
 
-		// player name
-		const sf::String& _playerName;
+		// text for player name
+		sf::Text _playerNameText;
 	};
 
 	// score visualation handler for each player
@@ -55,7 +56,4 @@ private:
 
 	// the last updated score
 	result_t _currentScore;
-
-	const sf::String FIRST_PLAYER_NAME = "Computer";
-	const sf::String SECOND_PLAYER_NAME = "Player"; // TODO let the user choose its gaming name
 };
