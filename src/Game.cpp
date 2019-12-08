@@ -108,7 +108,8 @@ void Game::GameLoop()
 		{
 			_mainWindow.clear(sf::Color(0, 0, 0));
 
-			_scoreBoard.Draw(_mainWindow); // draw scoreboard on main window
+			// draw scoreboard on main window
+			_scoreBoard.Draw(_mainWindow);
 
 			GameMessage resultMessage = _pongObjectsManager.UpdateAll();
 			_pongObjectsManager.DrawAll(_mainWindow);
@@ -128,7 +129,9 @@ void Game::GameLoop()
 
 				_scoreBoard.UpdateScores(currentResult);
 				_scoreBoard.Draw(_mainWindow);
-				_mainWindow.display(); // display to update the score on the window
+				
+				// display to update the score on the window
+				_mainWindow.display();
 
 				// computer wins: gameover
 				if (currentResult.computerScore == result_t::MAX_SCORE)
@@ -148,6 +151,16 @@ void Game::GameLoop()
 					std::this_thread::sleep_for(std::chrono::seconds(1));
 					// TODO countdown to restart
 					_pongObjectsManager.SetGameObjectsDefaultPosition();
+
+					if (resultMessage.GetMessageType() == GameMessage::COMPUTER_MISS)
+					{
+						// also, the ball random starting angle and direction is specified
+						_pongObjectsManager.GetBall()->SetupRandomStartingAngle(GameBall::FieldSide::ComputerSide);
+					}
+					else if (resultMessage.GetMessageType() == GameMessage::PLAYER_MISS)
+					{
+						_pongObjectsManager.GetBall()->SetupRandomStartingAngle(GameBall::FieldSide::PlayerSide);
+					}
 				}
 			}
 
@@ -211,6 +224,7 @@ void Game::ShowEndSetPopup(const EndSetPopup::PopupType& popupType)
 void Game::ResetGame() 
 {
 	_pongObjectsManager.SetGameObjectsDefaultPosition();
+	_pongObjectsManager.GetBall()->SetupRandomStartingAngle();
 	_scoreBoard.Clear();
 	_referee->ResetScore();
 	_gameState = GameState::Playing;

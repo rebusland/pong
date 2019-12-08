@@ -42,6 +42,9 @@ void PongObjectsManager::CreateGameObjects()
 	CreateGameObject<GameBall>(BALL_TAG);
 
 	SetGameObjectsDefaultPosition();
+
+	// also, the ball random starting angle is specified
+	GetBall()->SetupRandomStartingAngle();
 }
 
 void PongObjectsManager::SetGameObjectsDefaultPosition()
@@ -51,8 +54,6 @@ void PongObjectsManager::SetGameObjectsDefaultPosition()
 		Game::FIELD_WIDTH / 2,
 		Game::FIELD_HEIGHT / 2 - GameBall::BALL_RADIUS / 2
 	);
-	// also, the ball random starting angle is specified
-	GetBall()->SetupRandomStartingAngle();
 
 	// player and computer paddle are at the centered and in opposite sides of the field
 	GetPlayerPaddle()->setPosition(

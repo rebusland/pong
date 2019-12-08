@@ -11,6 +11,15 @@ class GameBall :
 		GameBall(const GameObjectsManager& manager);
 		virtual ~GameBall() { LOG(__func__) }
 
+		// TODO is it useful to move this somewhere else?
+		enum class FieldSide
+		{
+			None,
+			PlayerSide,
+			ComputerSide
+		};
+
+		void SetupRandomStartingAngle(const FieldSide&);
 		void SetupRandomStartingAngle();
 
 		GameMessage Update() override;
@@ -34,7 +43,11 @@ class GameBall :
 		static constexpr float BALL_RADIUS = 20;
 
 		// angle spread allowed for the ball after a paddle hit
-		static constexpr float BALL_ANGLE_SPREAD = 45;
+		static constexpr float BALL_PADDLE_MAX_ANGLE_SPREAD = 45;
+
+		// max (half-)angle spread when ball is first thrown at the beginning of the match
+		// NB full spread is twice this value
+		static constexpr int BALL_INITIAL_HALF_ANGLE_SPREAD = 30;
 
 	protected:
 		/**

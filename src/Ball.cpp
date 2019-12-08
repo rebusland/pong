@@ -17,12 +17,32 @@ GameBall::GameBall(const GameObjectsManager& manager) :
 
 void GameBall::SetupRandomStartingAngle()
 {
+	SetupRandomStartingAngle(FieldSide::None);
+}
+
+void GameBall::SetupRandomStartingAngle(const FieldSide& fieldSide)
+{
 	// initialize random seed:
 	srand(time(NULL));
 
-	// random angle at which the ball is first thrown (in the intervals [45, 135] and [225, 315] degrees) 
+	// random angle at which the ball is first thrown
+	// (in the intervals [45, 135] and/or [225, 315] degrees depending on specification on fieldSide) 
 	int rnd = rand();
-	_angle = 45 + rnd % 90 + (rnd % 2) * 180;
+	
+	// generate angle in the interval (90 - HALF_SPREAD, 90 + HALF_SPREAD)
+	_angle = 90 + (rnd % 2) * (rnd % BALL_INITIAL_HALF_ANGLE_SPREAD);
+	
+	switch (fieldSide)
+	{
+		case FieldSide::ComputerSide:
+			_angle += 180;
+			break;
+		case FieldSide::PlayerSide:
+			break;
+		default: // None => random side
+			_angle += (rnd % 2) * 180;
+			break;
+	}
 }
 
 GameMessage GameBall::Update()
@@ -109,7 +129,7 @@ double GameBall::ComputeBallPaddleAngle(double upcomingAngle, const sf::FloatRec
 	LOG("ball center: " << ballCenter << ", paddleCenterX: " << paddleCenterX);
 
 	// 270 (reverse direction) + angle spread (backhand or forehand)
-	double emergingAngle = 270 + BALL_ANGLE_SPREAD * (ballCenter - paddleCenterX) / (paddleBounds.width / 2);
+	double emergingAngle = 270 + BALL_PADDLE_MAX_ANGLE_SPREAD * (ballCenter - paddleCenterX) / (paddleBounds.width / 2);
 
 	emergingAngle = (std::sin(upcomingAngle * PI / 180) >= 0.0) ? emergingAngle : 360 - emergingAngle;
 
