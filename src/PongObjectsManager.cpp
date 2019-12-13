@@ -42,9 +42,6 @@ void PongObjectsManager::CreateGameObjects()
 	CreateGameObject<GameBall>(BALL_TAG);
 
 	SetGameObjectsDefaultPosition();
-
-	// also, the ball random starting angle is specified
-	GetBall()->SetupRandomStartingAngle();
 }
 
 void PongObjectsManager::SetGameObjectsDefaultPosition()

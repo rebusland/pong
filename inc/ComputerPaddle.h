@@ -14,17 +14,10 @@ class ComputerPaddle : public Paddle
 
 		~ComputerPaddle() { LOG(__func__) }
 
-		/*
- 		 * Implements computer paddle movements logic.
-		 * The ability of the computer is set by the game difficulty level.
-		 */
-		GameMessage Update() override;
-
-	private:
 		/**
-		 * The computer ability is synthetized by its "responsiveness" (i.e. reflexes) to ball movement
+		 * The computer ability is synthetized by its "responsiveness" (i.e. reflexes) to ball movement.
+		 * The value is expressed in percentage term.
 		 */
-		// in percentage term
 		enum Responsiveness {
 			Slow = 60,
 			Normal = 70,
@@ -32,5 +25,12 @@ class ComputerPaddle : public Paddle
 			Perfect = 100
 		};
 
+		/*
+ 		 * Implements computer paddle movements logic.
+		 * The ability of the computer is set by the game difficulty level.
+		 */
+		GameMessage Update() override;
+
+	private:
 		Responsiveness _responsiveness;
 };

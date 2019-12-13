@@ -6,7 +6,7 @@
  *	- if a player scores, at the next game the ball must be thrown in the oppont field (at random angle),
  *	  possibly at a lower speed until it reaches the paddle so that is more feasible for the opponent to
  *	  to hit the ball.
- *	- fix the annoying bug of ball occasionally bouncing back and forth when touching the paddle border.
+ *	- Create a UI or windows/popup manager class
  *	- write a general utility methods to center texts inside a box, for arbitrary lenght based on character size.
  *	  In fact, currently the player name inside the score box is centered by hard-coding values.
  *
@@ -75,6 +75,7 @@ private:
 	enum class GameState {
 		Paused,
 		ShowingMenu,
+		ChangingSettings,
 		Playing,
 		Exiting
 	};
@@ -88,6 +89,8 @@ private:
 	 */
 	static void PauseGame();
 	static void ShowMenu();
+
+	static void DisplayOptions();
 
 	/**
 	 * Displays the popup as the set is over. This can be either a win or gameover screen,

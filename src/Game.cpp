@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "inc/Game.h"
 #include "inc/MainMenu.h"
+#include "inc/SettingsScreen.h"
 #include "inc/SplashScreen.h"
 #include "inc/EndSetPopup.h"
 #include "inc/Utilities.h"
@@ -199,8 +200,28 @@ void Game::ShowMenu()
 		case MainMenu::Play:
 			ResetGame();
 			break;
+		case MainMenu::Options:
+			DisplayOptions();
+			break;
 		default:
 			break;
+	}
+}
+
+void Game::DisplayOptions() 
+{
+	SettingsScreen settingsScreen;
+	SettingsScreen::SettingsScreenResult result = settingsScreen.Show(_mainWindow);
+	switch (result)
+	{
+	case SettingsScreen::Exit:
+		_gameState = GameState::Exiting;
+		break;
+	case SettingsScreen::BackToMenu:
+		_gameState = GameState::ShowingMenu;
+		break;
+	default:
+		break;
 	}
 }
 
