@@ -34,6 +34,10 @@
 // TODO let the user choose its gaming name
 #define DEF_PLAYER_NAME "USER"
 
+// forward declaration
+class Screen;
+class MenuScreen;
+class OptionsScreen;
 
 class Game
 {
@@ -71,6 +75,10 @@ public:
 		Impossible
 	};
 
+	friend class Screen;
+	friend class MenuScreen;
+	friend class OptionsScreen;
+
 private:
 	enum class GameState {
 		Paused,
@@ -80,17 +88,13 @@ private:
 		Exiting
 	};
 
-	static void GameLoop();
-
 	static GameMessage TrySetupGameInterface();
 
 	/**
 	 * Temporarily pause the game: freeze the window
 	 */
 	static void PauseGame();
-	static void ShowMenu();
-
-	static void DisplayOptions();
+	static void Play();
 
 	/**
 	 * Displays the popup as the set is over. This can be either a win or gameover screen,
