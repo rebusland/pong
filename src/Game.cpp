@@ -107,7 +107,12 @@ void Game::PauseGame()
 {
 	sf::Event currentEvent;
 	while (_mainWindow.pollEvent(currentEvent)) {
-		if (_gameState == GameState::Paused &&
+		if (currentEvent.type == sf::Event::Closed)
+		{
+			_gameState = GameState::Exiting;
+			return;
+		} 
+		else if (_gameState == GameState::Paused &&
 			currentEvent.type == sf::Event::KeyPressed &&
 			currentEvent.key.code == sf::Keyboard::Space)
 		{
